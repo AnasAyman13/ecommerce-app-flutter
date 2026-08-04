@@ -2,30 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'core/theme/app_theme.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+import 'routes/app_routes.dart';
 
-  runApp(const ECommerceApp());
+void main() {
+  runApp(const MyApp());
 }
 
-class ECommerceApp extends StatelessWidget {
-  const ECommerceApp({Key? key}) : super(key: key);
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(375, 812),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (context, child) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'E-Commerce App',
-          theme: AppTheme.lightTheme,
-          home: child,
-        );
-      },
-      child: const Scaffold(),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+
+      title: 'NORR',
+
+      initialRoute: AppRoutes.login,
+
+      routes: AppRoutes.routes,
     );
   }
 }
