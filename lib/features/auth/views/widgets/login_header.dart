@@ -48,14 +48,10 @@ class LoginHeader extends StatelessWidget {
           ),
 
           Padding(
-            padding: const EdgeInsets.only(
-              left: 24,
-              top: 60,
-            ),
+            padding: const EdgeInsets.only(left: 24, top: 60),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 Text(
                   "WELCOME BACK",
                   style: GoogleFonts.montserrat(

@@ -19,11 +19,7 @@ class SocialButton extends StatelessWidget {
         height: 55,
         child: OutlinedButton.icon(
           onPressed: onPressed,
-          icon: Icon(
-            icon,
-            size: 22,
-            color: const Color(0xff8F4040),
-          ),
+          icon: Icon(icon, size: 22, color: const Color(0xff8F4040)),
           label: Text(
             title,
             style: const TextStyle(
@@ -33,9 +29,7 @@ class SocialButton extends StatelessWidget {
           ),
           style: OutlinedButton.styleFrom(
             backgroundColor: Colors.white,
-            side: const BorderSide(
-              color: Color(0xffE5DED8),
-            ),
+            side: const BorderSide(color: Color(0xffE5DED8)),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(18),
             ),

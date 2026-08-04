@@ -19,10 +19,7 @@ class RegisterHeader extends StatelessWidget {
                 SizedBox(width: 6),
                 Text(
                   "Back to sign in",
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.black54,
-                  ),
+                  style: TextStyle(fontSize: 14, color: Colors.black54),
                 ),
               ],
             ),
@@ -54,11 +51,7 @@ class RegisterHeader extends StatelessWidget {
 
           const Text(
             "Join 48,000+ design enthusiasts in the NORR community.",
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.black54,
-              height: 1.5,
-            ),
+            style: TextStyle(fontSize: 14, color: Colors.black54, height: 1.5),
           ),
 
           const SizedBox(height: 28),

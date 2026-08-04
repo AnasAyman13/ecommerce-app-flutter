@@ -13,23 +13,17 @@ class RegisterScreen extends StatefulWidget {
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-
 class _RegisterScreenState extends State<RegisterScreen> {
-
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController nameController =
-  TextEditingController();
+  final TextEditingController nameController = TextEditingController();
 
-  final TextEditingController emailController =
-  TextEditingController();
+  final TextEditingController emailController = TextEditingController();
 
-  final TextEditingController passwordController =
-  TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   final TextEditingController confirmPasswordController =
-  TextEditingController();
-
+      TextEditingController();
 
   bool isPasswordHidden = true;
   bool isConfirmPasswordHidden = true;
@@ -45,7 +39,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
-
   void register() {
     if (!_formKey.currentState!.validate()) return;
 
@@ -59,60 +52,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("Account Created Successfully"),
-      ),
+      const SnackBar(content: Text("Account Created Successfully")),
     );
 
-    Navigator.pushReplacementNamed(
-      context,
-      AppRoutes.login,
-    );
+    Navigator.pushReplacementNamed(context, AppRoutes.login);
   }
-
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
       body: SafeArea(
-
         child: Center(
-
           child: SizedBox(
-
             width: 420,
 
             child: SingleChildScrollView(
-
               child: Form(
-
                 key: _formKey,
 
                 child: Column(
-
                   children: [
-
                     const RegisterHeader(),
 
-
                     Padding(
-
                       padding: const EdgeInsets.symmetric(
                         horizontal: 24,
                         vertical: 24,
                       ),
 
                       child: Column(
-
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
-
+                        crossAxisAlignment: CrossAxisAlignment.start,
 
                         children: [
-
-
                           LoginTextField(
                             title: "NAME",
                             hint: "Enter your name",
@@ -120,20 +91,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             controller: nameController,
 
                             validator: (value) {
-
-                              if(value == null || value.isEmpty){
+                              if (value == null || value.isEmpty) {
                                 return "Please enter your name";
                               }
 
                               return null;
                             },
-
                           ),
 
-
-                          const SizedBox(height:20),
-
-
+                          const SizedBox(height: 20),
 
                           LoginTextField(
                             title: "EMAIL",
@@ -141,28 +107,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             icon: Icons.email_outlined,
                             controller: emailController,
 
-                            validator: (value){
-
-                              if(value == null || value.isEmpty){
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
                                 return "Please enter your email";
                               }
 
-
-                              if(!value.contains("@")){
+                              if (!value.contains("@")) {
                                 return "Invalid email";
                               }
 
-
                               return null;
                             },
-
                           ),
 
-
-
-                          const SizedBox(height:20),
-
-
+                          const SizedBox(height: 20),
 
                           LoginTextField(
                             title: "PASSWORD",
@@ -171,96 +129,57 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             controller: passwordController,
                             obscure: isPasswordHidden,
 
-                            onTogglePassword: (){
-
+                            onTogglePassword: () {
                               setState(() {
-
-                                isPasswordHidden =
-                                !isPasswordHidden;
-
+                                isPasswordHidden = !isPasswordHidden;
                               });
-
                             },
 
-
-                            validator:(value){
-
-                              if(value == null || value.isEmpty){
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
                                 return "Please enter password";
                               }
 
-
-                              if(value.length < 6){
+                              if (value.length < 6) {
                                 return "Password must be at least 6 characters";
                               }
 
-
                               return null;
                             },
-
-
                           ),
 
-
-
-                          const SizedBox(height:20),
-
-
-
+                          const SizedBox(height: 20),
 
                           LoginTextField(
-
                             title: "CONFIRM PASSWORD",
 
                             hint: "Confirm password",
 
                             icon: Icons.lock_outline,
 
-                            controller:
-                            confirmPasswordController,
+                            controller: confirmPasswordController,
 
-                            obscure:
-                            isConfirmPasswordHidden,
+                            obscure: isConfirmPasswordHidden,
 
-
-                            onTogglePassword: (){
-
+                            onTogglePassword: () {
                               setState(() {
-
                                 isConfirmPasswordHidden =
-                                !isConfirmPasswordHidden;
-
+                                    !isConfirmPasswordHidden;
                               });
-
                             },
 
-
-                            validator:(value){
-
-
-                              if(value == null || value.isEmpty){
-
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
                                 return "Please confirm password";
-
                               }
 
-
-                              if(value != passwordController.text){
-
+                              if (value != passwordController.text) {
                                 return "Passwords do not match";
-
                               }
-
 
                               return null;
-
                             },
-
-
                           ),
-
-
-
 
                           const SizedBox(height: 20),
 
@@ -310,87 +229,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                           const SizedBox(height: 24),
 
-                          LoginButton(
-                            onPressed: register,
-                          ),
+                          LoginButton(onPressed: register),
 
-
-
-
-                          const SizedBox(height:20),
-
-
-
+                          const SizedBox(height: 20),
 
                           Row(
-
-                            mainAxisAlignment:
-                            MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
 
                             children: [
-
-
-                              const Text(
-                                  "Already have an account?"
-                              ),
-
+                              const Text("Already have an account?"),
 
                               TextButton(
-
-                                onPressed: (){
-
-
+                                onPressed: () {
                                   Navigator.pushReplacement(
-
                                     context,
 
                                     MaterialPageRoute(
-
-                                      builder:(context)=>
-                                      const LoginScreen(),
-
+                                      builder: (context) => const LoginScreen(),
                                     ),
-
                                   );
-
-
                                 },
 
-                                child: const Text(
-                                    "Login"
-                                ),
-
+                                child: const Text("Login"),
                               ),
-
-
                             ],
-
                           ),
-
-
                         ],
-
                       ),
-
                     ),
-
-
                   ],
-
                 ),
-
               ),
-
             ),
-
           ),
-
         ),
-
       ),
-
     );
-
   }
-
 }

@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 class LoginButton extends StatelessWidget {
   final VoidCallback onPressed;
 
-  const LoginButton({
-    super.key,
-    required this.onPressed,
-  });
+  const LoginButton({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +23,7 @@ class LoginButton extends StatelessWidget {
         ),
         child: const Text(
           "Sign In",
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
       ),
     );

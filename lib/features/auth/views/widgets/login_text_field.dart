@@ -42,24 +42,18 @@ class LoginTextField extends StatelessWidget {
           cursorColor: const Color(0xff8F4040),
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: const TextStyle(
-              color: Colors.grey,
-              fontSize: 14,
-            ),
-            prefixIcon: Icon(
-              icon,
-              color: const Color(0xff8F4040),
-            ),
+            hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
+            prefixIcon: Icon(icon, color: const Color(0xff8F4040)),
             suffixIcon: onTogglePassword != null
                 ? IconButton(
-              onPressed: onTogglePassword,
-              icon: Icon(
-                obscure
-                    ? Icons.visibility_off_outlined
-                    : Icons.visibility_outlined,
-                color: Colors.grey,
-              ),
-            )
+                    onPressed: onTogglePassword,
+                    icon: Icon(
+                      obscure
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
+                      color: Colors.grey,
+                    ),
+                  )
                 : null,
 
             filled: true,
@@ -72,9 +66,7 @@ class LoginTextField extends StatelessWidget {
 
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide: const BorderSide(
-                color: Color(0xffE8DDD7),
-              ),
+              borderSide: const BorderSide(color: Color(0xffE8DDD7)),
             ),
 
             focusedBorder: OutlineInputBorder(
@@ -87,17 +79,12 @@ class LoginTextField extends StatelessWidget {
 
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide: const BorderSide(
-                color: Colors.red,
-              ),
+              borderSide: const BorderSide(color: Colors.red),
             ),
 
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide: const BorderSide(
-                color: Colors.red,
-                width: 1.5,
-              ),
+              borderSide: const BorderSide(color: Colors.red, width: 1.5),
             ),
           ),
         ),
