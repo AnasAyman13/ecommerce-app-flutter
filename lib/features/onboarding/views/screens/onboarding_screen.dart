@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:ecommerce_app/core/routing/app_route_names.dart';
 import 'package:ecommerce_app/core/theme/app_text_styles.dart';
 import 'package:ecommerce_app/features/onboarding/views/widgets/elevatedButtonWidget.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,13 @@ class _OnboardingScreen extends State<OnboardingScreen> {
                         ),
                       ),
                       OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            AppRouteNames.home,
+                            (route) => false,
+                          );
+                        },
                         style: OutlinedButton.styleFrom(
                           backgroundColor: Color(0xFFFFFFFF).withAlpha(25),
                         ),
@@ -86,7 +93,16 @@ class _OnboardingScreen extends State<OnboardingScreen> {
                   style: AppTextStyles.taupeGrey15w400,
                 ),
                 SizedBox(height: 30.h),
-                Elevatedbuttonwidget(buttonText: "Explore Collection"),
+                Elevatedbuttonwidget(
+                  buttonText: "Explore Collection",
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      AppRouteNames.home,
+                      (route) => false,
+                    );
+                  },
+                ),
                 SizedBox(height: 18.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -95,12 +111,21 @@ class _OnboardingScreen extends State<OnboardingScreen> {
                       "Have an account?",
                       style: AppTextStyles.taupeGrey15w400,
                     ),
-                    Text(
-                      " Sign In",
-                      style: TextStyle(
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.primaryMaroon
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          AppRouteNames.login,
+                          (route) => false,
+                        );
+                      },
+                      child: Text(
+                        " Sign In",
+                        style: TextStyle(
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.primaryMaroon
+                        ),
                       ),
                     ),
                   ],
