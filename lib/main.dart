@@ -13,14 +13,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
+    return ScreenUtilInit(
+      designSize: const Size(390, 844),
+      builder: (context,child){
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
 
-      title: 'NORR',
+              title: 'NORR',
 
-      initialRoute: AppRoutes.login,
+              initialRoute: AppRoutes.splash,
 
-      routes: AppRoutes.routes,
+              routes: AppRoutes.routes,
+            );
+      },
     );
+
   }
 }

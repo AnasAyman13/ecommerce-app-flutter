@@ -8,6 +8,7 @@ class AppColors {
   static const Color darkBrown = Color(0xFF39201E);
   static const Color goldAccent = Color(0xFFBB8A52);
   static const Color starYellow = Color(0xFFFFBA00);
+  static const Color taupeGrey = Color(0XFF9B8B7E);
 
   // Background and neutrals (inferred from design context)
   static const Color backgroundLight = Color(0xFFFCF4F4); // Light pinkish tint
