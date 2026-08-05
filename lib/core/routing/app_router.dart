@@ -19,7 +19,7 @@ import 'app_route_names.dart';
 class AppRouter {
   AppRouter._();
 
-  static const String initialRoute = AppRouteNames.home;
+  static const String initialRoute = AppRouteNames.splash;
 
   static Map<String, WidgetBuilder> get routes => {
     AppRouteNames.splash: (_) => const SplashScreen(),
