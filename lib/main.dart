@@ -1,32 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'core/routing/app_router.dart';
 import 'core/theme/app_theme.dart';
 
-import 'routes/app_routes.dart';
-
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const NorrApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class NorrApp extends StatelessWidget {
+  const NorrApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(390, 844),
-      builder: (context,child){
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-
-              title: 'NORR',
-
-              initialRoute: AppRoutes.splash,
-
-              routes: AppRoutes.routes,
-            );
-      },
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (_, __) => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'NORR',
+        theme: AppTheme.lightTheme,
+        initialRoute: AppRouter.initialRoute,
+        routes: AppRouter.routes,
+        onGenerateRoute: AppRouter.onGenerateRoute,
+      ),
     );
-
   }
 }

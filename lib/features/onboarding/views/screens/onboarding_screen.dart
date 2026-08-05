@@ -57,7 +57,6 @@ class _OnboardingScreen extends State<OnboardingScreen> {
               ),
               Positioned(
                   bottom: 40.h,
-                  //right: 20.w,
                   left: 20.w,
                   child: Column(
                     children: [
@@ -72,7 +71,6 @@ class _OnboardingScreen extends State<OnboardingScreen> {
           Padding(
             padding: EdgeInsetsGeometry.all(20),
             child: Column(
-              //mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Designed for", style: AppTextStyles.onboardingHeadingtxt),
