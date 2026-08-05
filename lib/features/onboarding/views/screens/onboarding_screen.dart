@@ -1,12 +1,12 @@
 import 'dart:ffi';
 
 import 'package:ecommerce_app/core/theme/app_text_styles.dart';
+import 'package:ecommerce_app/features/onboarding/views/widgets/elevatedButtonWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import '../../../../core/theme/app_colors.dart';
+import '../widgets/onboardingTopSectionWidget.dart';
 
 class OnboardingScreen extends StatefulWidget {
   @override
@@ -22,49 +22,7 @@ class _OnboardingScreen extends State<OnboardingScreen> {
         children: [
           Stack(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(52.r),
-                    bottomRight: Radius.circular(52.r)
-                ),
-                child: SizedBox(
-                  height: screenHeight * 0.55,
-                  width: double.infinity,
-                  child: Stack(
-                    children: [
-                      Image.asset(
-
-                        'assets/images/onboarding_img.png',
-                        height: double.infinity,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      ),
-                      Container(
-
-                        width: double.infinity,
-                        height: double.infinity,
-                        decoration: BoxDecoration(
-
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              const Color(0xFF39201E).withValues(alpha: 0.05), // rgba(57, 32, 30, 0.05)
-                              Colors.transparent,                              // rgba(0, 0, 0, 0)
-                              const Color(0xFFFAF7F2).withValues(alpha: 0.9),  // rgba(250, 247, 242, 0.9)
-                              const Color(0xFFFAF7F2),                         // rgb(250, 247, 242)
-                            ],
-                            stops: const [0.0, 0.40, 0.85, 1.0],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-
-              //  SizedBox(width: 20),
+              Onboardingtopsectionwidget(imagePath: 'assets/images/onboarding_img.png',),
               Padding(
                 padding: EdgeInsetsGeometry.all(20),
                 child: SafeArea(
@@ -130,33 +88,7 @@ class _OnboardingScreen extends State<OnboardingScreen> {
                   style: AppTextStyles.taupeGrey15w400,
                 ),
                 SizedBox(height: 30.h),
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [AppColors.primaryMaroon, AppColors.darkBrown],
-                    ),
-                    borderRadius: BorderRadius.circular(29.r),
-                  ),
-                  child: ElevatedButton.icon(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.transparent,
-                      shadowColor: Colors.transparent,
-                    ),
-                    iconAlignment: IconAlignment.end,
-                    icon: Icon(
-                      Icons.arrow_forward_outlined,
-                      color: AppColors.white,
-                    ),
-                    label: Text(
-                      "Explore Collection",
-                      style: AppTextStyles.buttonText,
-                    ),
-                  ),
-                ),
+                Elevatedbuttonwidget(buttonText: "Explore Collection"),
                 SizedBox(height: 18.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
