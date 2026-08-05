@@ -7,7 +7,8 @@ import '../../../../core/theme/app_text_styles.dart';
 
 class Elevatedbuttonwidget extends StatelessWidget{
   final String? buttonText;
-  const Elevatedbuttonwidget({super.key,this.buttonText});
+  final VoidCallback? onPressed;
+  const Elevatedbuttonwidget({super.key, this.buttonText, this.onPressed});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,7 +22,7 @@ class Elevatedbuttonwidget extends StatelessWidget{
         borderRadius: BorderRadius.circular(29.r),
       ),
       child: ElevatedButton.icon(
-        onPressed: () {},
+        onPressed: onPressed ?? () {},
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,

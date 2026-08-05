@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'rating': 4.5,
       'price': '\$340',
       'imageUrl':
-          'https://images.unsplash.com/photo-1580481072645-022f9a6d8310?w=500&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500&auto=format&fit=crop',
       'isSale': false,
     },
     {

@@ -55,7 +55,7 @@ class _ListingScreenState extends State<ListingScreen> {
       title: 'Stav Oak Chair',
       rating: 4.5,
       price: 340,
-      imageUrl: 'https://images.unsplash.com/photo-1580481072645-022f9a6d8310?w=500&auto=format&fit=crop',
+      imageUrl: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=500&auto=format&fit=crop',
     ),
   ];
 
@@ -231,7 +231,7 @@ class _ListingScreenState extends State<ListingScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 0.72,
+                  childAspectRatio: 0.70,
                   crossAxisSpacing: 14.w,
                   mainAxisSpacing: 14.h,
                 ),
@@ -280,11 +280,11 @@ class _ListingScreenState extends State<ListingScreen> {
                   borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
                   child: Image.network(
                     product.imageUrl,
-                    height: 150.h,
+                    height: 130.h,
                     width: double.infinity,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) => Container(
-                      height: 150.h,
+                      height: 130.h,
                       color: AppColors.lightPillBg,
                       child: const Icon(Icons.chair, color: AppColors.textGrey),
                     ),
@@ -333,7 +333,7 @@ class _ListingScreenState extends State<ListingScreen> {
 
             // Info Section
             Padding(
-              padding: EdgeInsets.all(12.r),
+              padding: EdgeInsets.fromLTRB(10.r, 8.r, 10.r, 6.r),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -359,20 +359,20 @@ class _ListingScreenState extends State<ListingScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 4.h),
+                  SizedBox(height: 3.h),
 
                   // Title
                   Text(
                     product.title,
                     style: TextStyle(
-                      fontSize: 14.sp,
+                      fontSize: 13.sp,
                       fontWeight: FontWeight.bold,
                       color: AppColors.textDark,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 4.h),
+                  SizedBox(height: 3.h),
 
                   // Price & Strikethrough Price
                   Row(
