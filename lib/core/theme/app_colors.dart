@@ -3,17 +3,22 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
+  // Main palette
+  static const Color primaryMaroon = Color(0xFF832C31);
+  static const Color darkBrown = Color(0xFF35211E);
+  static const Color goldAccent = Color(0xFFBB8A52);
+  static const Color starYellow = Color(0xFFFFBA00);
+  static const Color taupeGrey = Color(0xFF9B8B7E);
+
   // Background and surfaces
   static const Color bgCream = Color(0xFFFAF6F0);
   static const Color white = Color(0xFFFFFFFF);
   static const Color cardBg = Color(0xFFFFFFFF);
 
   // Dark brown / charcoal
-  static const Color darkBrown = Color(0xFF35211E);
   static const Color darkBrownPill = Color(0xFF35211E);
 
   // Maroon / Burgundy primary accents
-  static const Color primaryMaroon = Color(0xFF832C31);
   static const Color maroonBadge = Color(0xFF832C31);
 
   // Light pill backgrounds
@@ -44,8 +49,6 @@ class AppColors {
   static const Color primary = primaryMaroon;
   static const Color header = primaryMaroon;
   static const Color gold = Color(0xFFBB8A52);
-  static const Color starYellow = Color(0xFFFFBA00);
   static const Color black = Colors.black87;
   static const Color grey = Colors.grey;
 }
-

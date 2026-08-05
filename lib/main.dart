@@ -18,7 +18,7 @@ class NorrApp extends StatelessWidget {
       designSize: const Size(390, 844),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (_, _) => MaterialApp(
+      builder: (_, __) => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'NORR',
         theme: AppTheme.lightTheme,

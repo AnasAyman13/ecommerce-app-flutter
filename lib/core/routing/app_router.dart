@@ -23,7 +23,7 @@ class AppRouter {
 
   static Map<String, WidgetBuilder> get routes => {
     AppRouteNames.splash: (_) => const SplashScreen(),
-    AppRouteNames.onboarding: (_) => const OnboardingScreen(),
+    AppRouteNames.onboarding: (_) => OnboardingScreen(),
     AppRouteNames.login: (_) => const LoginScreen(),
     AppRouteNames.register: (_) => const RegisterScreen(),
     AppRouteNames.home: (_) => const HomeScreen(),

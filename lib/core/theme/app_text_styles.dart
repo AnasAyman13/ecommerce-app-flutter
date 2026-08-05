@@ -72,5 +72,22 @@ class AppTextStyles {
     fontWeight: FontWeight.bold,
     color: AppColors.white,
   );
-}
 
+  static TextStyle onboardingHeadingtxt = TextStyle(
+    fontSize: 36,
+    fontWeight: FontWeight.w700,
+    color: AppColors.darkBrown,
+  );
+
+  static TextStyle taupeGrey15w400 = TextStyle(
+    fontSize: 15.sp,
+    fontWeight: FontWeight.w400,
+    color: AppColors.taupeGrey,
+  );
+
+  static TextStyle goldAccent11w600 = TextStyle(
+    fontWeight: FontWeight.w600,
+    fontSize: 11.sp,
+    color: AppColors.goldAccent,
+  );
+}
