@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../routes/app_routes.dart';
-import 'login_screen.dart';
+import '../../../../core/routing/app_route_names.dart';
 import '../widgets/login_button.dart';
-import '../widgets/login_header.dart';
 import '../widgets/login_text_field.dart';
 import '../widgets/register_header.dart';
 
@@ -55,7 +53,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       const SnackBar(content: Text("Account Created Successfully")),
     );
 
-    Navigator.pushReplacementNamed(context, AppRoutes.login);
+    Navigator.pushReplacementNamed(context, AppRouteNames.login);
   }
 
   @override
@@ -241,12 +239,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                               TextButton(
                                 onPressed: () {
-                                  Navigator.pushReplacement(
+                                  Navigator.pushReplacementNamed(
                                     context,
-
-                                    MaterialPageRoute(
-                                      builder: (context) => const LoginScreen(),
-                                    ),
+                                    AppRouteNames.login,
                                   );
                                 },
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import '../../../../core/constants/app_colors.dart';
 
 class LoginHeader extends StatelessWidget {
@@ -27,7 +27,7 @@ class LoginHeader extends StatelessWidget {
               width: 160,
               height: 160,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(.05),
+                color: Colors.white.withValues(alpha: .05),
                 shape: BoxShape.circle,
               ),
             ),
@@ -41,7 +41,7 @@ class LoginHeader extends StatelessWidget {
               width: 170,
               height: 170,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(.07),
+                color: Colors.white.withValues(alpha: .07),
                 shape: BoxShape.circle,
               ),
             ),
@@ -54,10 +54,11 @@ class LoginHeader extends StatelessWidget {
               children: [
                 Text(
                   "WELCOME BACK",
-                  style: GoogleFonts.montserrat(
+                  style: const TextStyle(
                     color: AppColors.gold,
                     letterSpacing: 4,
                     fontSize: 12,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
 
@@ -65,10 +66,11 @@ class LoginHeader extends StatelessWidget {
 
                 Text(
                   "Sign In",
-                  style: GoogleFonts.cormorantGaramond(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 52,
                     fontWeight: FontWeight.bold,
+                    fontFamily: 'serif',
                   ),
                 ),
               ],

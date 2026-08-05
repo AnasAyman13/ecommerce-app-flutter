@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../routes/app_routes.dart';
+import '../../../../core/routing/app_route_names.dart';
 import '../widgets/login_button.dart';
 import '../widgets/login_header.dart';
 import '../widgets/login_text_field.dart';
@@ -199,9 +199,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                           const SizedBox(height: 24),
 
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-
+                          Wrap(
+                            alignment: WrapAlignment.center,
+                            crossAxisAlignment: WrapCrossAlignment.center,
                             children: [
                               const Text("New to NORR?"),
 
@@ -210,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Navigator.pushNamed(
                                     context,
 
-                                    AppRoutes.register,
+                                    AppRouteNames.register,
                                   );
                                 },
 
