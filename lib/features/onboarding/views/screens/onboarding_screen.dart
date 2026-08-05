@@ -77,7 +77,7 @@ class _OnboardingScreen extends State<OnboardingScreen> {
               children: [
                 Text("Designed for", style: AppTextStyles.onboardingHeadingtxt),
                 Text(
-                  "living beautifally",
+                  "living beautifully",
                   style: AppTextStyles.onboardingHeadingtxt.copyWith(
                     color: AppColors.primaryMaroon,
                   ),
