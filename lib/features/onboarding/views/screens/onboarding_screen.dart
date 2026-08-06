@@ -19,8 +19,9 @@ class _OnboardingScreen extends State<OnboardingScreen> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Column(
-        children: [
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
           Stack(
             children: [
               Onboardingtopsectionwidget(imagePath: 'assets/images/onboarding_img.png',),
@@ -135,6 +136,7 @@ class _OnboardingScreen extends State<OnboardingScreen> {
           ),
         ],
       ),
-    );
+    ),
+  );
   }
 }

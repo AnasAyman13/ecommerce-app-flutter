@@ -195,14 +195,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             hintText: 'Search furniture, rooms...',
                             hintStyle: TextStyle(
                               color: AppColors.textGrey,
-                              fontSize: 14.sp,
+                              fontSize: 14,
                             ),
                             border: InputBorder.none,
                             isDense: true,
                           ),
                           style: TextStyle(
                             color: AppColors.textDark,
-                            fontSize: 14.sp,
+                            fontSize: 14,
                           ),
                         ),
                       ),
@@ -247,7 +247,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: double.infinity,
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) =>
-                              Container(color: const Color(0xFF261916)),
+                              Image.asset(
+                            'assets/images/stav_oak_chair.png',
+                            width: double.infinity,
+                            height: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                         // Dark overlay gradient
                         Container(
@@ -449,10 +454,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                   width: 2.r,
                                 ),
                               ),
-                              child: CircleAvatar(
-                                radius: 30.r,
-                                backgroundImage: NetworkImage(room['image']!),
-                                backgroundColor: AppColors.lightPillBg,
+                              child: ClipOval(
+                                child: Image.network(
+                                  room['image']!,
+                                  width: 60.r,
+                                  height: 60.r,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      Image.asset(
+                                    'assets/images/stav_oak_chair.png',
+                                    width: 60.r,
+                                    height: 60.r,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
                             ),
                             SizedBox(height: 6.h),
@@ -565,15 +580,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                       height: double.infinity,
                                       width: double.infinity,
                                       fit: BoxFit.cover,
-                                      errorBuilder:
-                                          (context, error, stackTrace) =>
-                                              Container(
-                                                color: AppColors.lightPillBg,
-                                                child: const Icon(
-                                                  Icons.chair,
-                                                  color: AppColors.textGrey,
-                                                ),
-                                              ),
+                                      errorBuilder: (context, error, stackTrace) =>
+                                          Image.asset(
+                                        'assets/images/stav_oak_chair.png',
+                                        height: double.infinity,
+                                        width: double.infinity,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                   if (item['isSale'] == true)
