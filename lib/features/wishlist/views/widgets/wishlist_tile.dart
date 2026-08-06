@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../models/wishlist_item_model.dart';
 
 class WishlistTile extends StatelessWidget {
@@ -11,8 +10,8 @@ class WishlistTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(item.name),
-      subtitle: Text(item.price.toStringAsFixed(2)),
+      title: Text(item.title),
+      subtitle: Text(item.price),
       trailing: IconButton(
         onPressed: onRemove,
         icon: const Icon(Icons.favorite),

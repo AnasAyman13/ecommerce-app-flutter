@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../features/search/views/screens/search_screen.dart';
+import '../../../../features/search/viewmodels/search_view_model.dart';
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});
