@@ -34,6 +34,7 @@ class _OnboardingScreen extends State<OnboardingScreen> {
                       Text(
                         "NORR",
                         style: TextStyle(
+                          fontFamily: "Fraunces",
                           color: Colors.white,
                           fontSize: 22.sp,
                           fontWeight: FontWeight(700),
@@ -53,6 +54,7 @@ class _OnboardingScreen extends State<OnboardingScreen> {
                         child: Text(
                           "Skip",
                           style: TextStyle(
+                            fontFamily: "Fraunces",
                             color: Colors.white,
                             fontSize: 12.sp,
                             fontWeight: FontWeight(600),
@@ -64,16 +66,74 @@ class _OnboardingScreen extends State<OnboardingScreen> {
                 ),
               ),
               Positioned(
-                  bottom: 40.h,
-                  left: 20.w,
-                  child: Column(
-                    children: [
-                      Text("OSLO COLLECTION",style: AppTextStyles.goldAccent11w600,)
-                    ,Row(
-                        children: [],
-                      )
-                    ],
-                  ))
+                bottom: 20.h,
+                left: 20.w,
+                right: 20.w, // إضافة right مهمة لتحديد عرض المكون بالنسبة للشاشة
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "OSLO COLLECTION",
+                          style: AppTextStyles.goldAccent11w600,
+                        ),
+                        Text(
+                          "360°",
+                          style: TextStyle(
+                            fontSize: 11.sp,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8.h),
+
+
+                    Row(
+                      children: [
+
+                        Expanded(
+                          flex: 5,
+                          child: Container(
+                            height: 3.h,
+                            decoration: BoxDecoration(
+                              color: AppColors.primaryMaroon,
+                              borderRadius: BorderRadius.circular(2.r),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 6.w),
+
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            height: 3.h,
+                            decoration: BoxDecoration(
+                              color: Color(0xffE8E0D5),
+                              borderRadius: BorderRadius.circular(2.r),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 6.w),
+
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            height: 3.h,
+                            decoration: BoxDecoration(
+                              color: Color(0xffE8E0D5),
+                              borderRadius: BorderRadius.circular(2.r),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
           Padding(
@@ -123,6 +183,7 @@ class _OnboardingScreen extends State<OnboardingScreen> {
                       child: Text(
                         " Sign In",
                         style: TextStyle(
+                            fontFamily: "Fraunces",
                           fontSize: 13.sp,
                           fontWeight: FontWeight.w600,
                           color: AppColors.primaryMaroon
