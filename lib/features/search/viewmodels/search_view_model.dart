@@ -1,24 +1,100 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/material.dart';
+import '../models/category_item_model.dart';
+import '../models/trending_search_model.dart';
 
-import '../../../core/utils/view_state.dart';
-import '../models/search_result_model.dart';
-import '../repositories/search_repository.dart';
+enum SearchSubView { categories, discover, listing }
 
-class SearchViewModel extends Cubit<ViewState<List<SearchResultModel>>> {
-  final SearchRepository _repository;
+class SearchViewModel extends ChangeNotifier {
+  SearchSubView _currentView = SearchSubView.categories;
+  String _selectedCategoryTitle = 'Sofas & Chairs';
+  String _selectedCategoryPill = 'All';
 
-  SearchViewModel(this._repository) : super(const ViewState.initial());
+  SearchSubView get currentView => _currentView;
+  String get selectedCategoryTitle => _selectedCategoryTitle;
+  String get selectedCategoryPill => _selectedCategoryPill;
 
-  Future<void> search(String query) async {
-    if (query.trim().isEmpty) {
-      emit(const ViewState.success([]));
-      return;
+  final List<String> categoryPills = const [
+    'All',
+    'New',
+    'Sale',
+    'Bestsellers',
+    'Eco-Line',
+  ];
+
+  final List<CategoryItemModel> categories = const [
+    CategoryItemModel(
+      title: 'Living Room',
+      itemsCount: '142 items',
+      imageUrl:
+          'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500&auto=format&fit=crop',
+    ),
+    CategoryItemModel(
+      title: 'Bedroom',
+      itemsCount: '87 items',
+      imageUrl:
+          'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=500&auto=format&fit=crop',
+    ),
+    CategoryItemModel(
+      title: 'Chairs',
+      itemsCount: '64 items',
+      imageUrl:
+          'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=500&auto=format&fit=crop',
+    ),
+    CategoryItemModel(
+      title: 'Lighting',
+      itemsCount: '55 items',
+      imageUrl:
+          'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500&auto=format&fit=crop',
+    ),
+    CategoryItemModel(
+      title: 'Dining',
+      itemsCount: '38 items',
+      imageUrl:
+          'https://images.unsplash.com/photo-1617806118233-18e1de247200?w=500&auto=format&fit=crop',
+    ),
+  ];
+
+  final List<String> recentSearches = const [
+    'Oslo sofa',
+    'Oak dining table',
+    'Floor lamp',
+    'Accent chair',
+    'Bouclé',
+  ];
+
+  final List<TrendingSearchModel> trendingSearches = const [
+    TrendingSearchModel(number: '01', title: 'Bouclé armchair', isHot: true),
+    TrendingSearchModel(number: '02', title: 'Marble coffee table', isHot: true),
+    TrendingSearchModel(number: '03', title: 'Rattan pendant', isHot: false),
+    TrendingSearchModel(number: '04', title: 'Japandi bookcase', isHot: false),
+    TrendingSearchModel(number: '05', title: 'Travertine side table', isHot: false),
+  ];
+
+  void setInitialView(SearchSubView view, String? category) {
+    _currentView = view;
+    if (category != null) {
+      _selectedCategoryTitle = category;
     }
-    emit(const ViewState.loading());
-    try {
-      emit(ViewState.success(await _repository.search(query.trim())));
-    } catch (error) {
-      emit(ViewState.failure(error.toString()));
-    }
+  }
+
+  void openCategories() {
+    _currentView = SearchSubView.categories;
+    notifyListeners();
+  }
+
+  void openDiscover() {
+    _currentView = SearchSubView.discover;
+    notifyListeners();
+  }
+
+  void openListing(String categoryTitle) {
+    _selectedCategoryTitle = categoryTitle;
+    _currentView = SearchSubView.listing;
+    notifyListeners();
+  }
+
+  void selectCategoryPill(String pill) {
+    _selectedCategoryPill = pill;
+    notifyListeners();
   }
 }

@@ -1,18 +1,20 @@
 import 'package:equatable/equatable.dart';
 
 class WishlistItemModel extends Equatable {
-  final String productId;
-  final String name;
+  final String id;
+  final String title;
+  final double rating;
+  final String price;
   final String imageUrl;
-  final double price;
 
   const WishlistItemModel({
-    required this.productId,
-    required this.name,
-    required this.imageUrl,
+    required this.id,
+    required this.title,
+    required this.rating,
     required this.price,
+    required this.imageUrl,
   });
 
   @override
-  List<Object> get props => [productId, name, imageUrl, price];
+  List<Object> get props => [id, title, rating, price, imageUrl];
 }

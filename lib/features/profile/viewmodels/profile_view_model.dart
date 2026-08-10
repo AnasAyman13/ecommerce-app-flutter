@@ -1,29 +1,31 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/material.dart';
+import '../models/profile_user_model.dart';
 
-import '../../../core/utils/view_state.dart';
-import '../models/profile_model.dart';
-import '../repositories/profile_repository.dart';
+class ProfileViewModel extends ChangeNotifier {
+  ProfileUserModel _user = const ProfileUserModel(
+    name: 'Elina Bergström',
+    email: 'elina@norr.co',
+    memberSince: '2022',
+    badge: '+ GOLD MEMBER',
+    ordersCount: 12,
+    reviewsCount: 4,
+    savedCount: 28,
+    spentAmount: '\$8.2k',
+  );
 
-class ProfileViewModel extends Cubit<ViewState<ProfileModel>> {
-  final ProfileRepository _repository;
+  ProfileUserModel get user => _user;
 
-  ProfileViewModel(this._repository) : super(const ViewState.initial());
-
-  Future<void> loadProfile() async {
-    emit(const ViewState.loading());
-    try {
-      emit(ViewState.success(await _repository.getProfile()));
-    } catch (error) {
-      emit(ViewState.failure(error.toString()));
-    }
-  }
-
-  Future<void> updateProfile(ProfileModel profile) async {
-    emit(const ViewState.loading());
-    try {
-      emit(ViewState.success(await _repository.updateProfile(profile)));
-    } catch (error) {
-      emit(ViewState.failure(error.toString()));
-    }
+  void updateUserProfile({String? name, String? email}) {
+    _user = ProfileUserModel(
+      name: name ?? _user.name,
+      email: email ?? _user.email,
+      memberSince: _user.memberSince,
+      badge: _user.badge,
+      ordersCount: _user.ordersCount,
+      reviewsCount: _user.reviewsCount,
+      savedCount: _user.savedCount,
+      spentAmount: _user.spentAmount,
+    );
+    notifyListeners();
   }
 }
