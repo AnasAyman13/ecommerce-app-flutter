@@ -12,7 +12,7 @@ class HomeViewModel extends Cubit<ViewState<List<HomeSectionModel>>> {
   Future<void> loadHome() async {
     emit(const ViewState.loading());
     try {
-      emit(ViewState.success(await _repository.getHomeSections()));
+      emit(ViewState.success(await _repository.fetchProducts()));
     } catch (error) {
       emit(ViewState.failure(error.toString()));
     }

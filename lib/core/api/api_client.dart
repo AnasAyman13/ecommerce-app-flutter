@@ -38,6 +38,14 @@ class ApiClient {
     String path, {
     Map<String, dynamic>? queryParams,
   }) => _dio.get(path, queryParameters: queryParams);
+  Future<Response> getProducts() async {
+    try {
+      final response = await dio.get(ApiEndpoints.baseUrl);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   Future<Response<dynamic>> post(String path, {dynamic data}) =>
       _dio.post(path, data: data);

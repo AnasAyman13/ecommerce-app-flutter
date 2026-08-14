@@ -1,11 +1,13 @@
+import 'package:ecommerce_app/core/di/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'core/routing/app_router.dart';
 import 'core/theme/app_theme.dart';
 
-void main() {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await initServiceLocator();
   runApp(const NorrApp());
 }
 

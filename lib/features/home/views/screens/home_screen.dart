@@ -1,9 +1,17 @@
+import 'package:ecommerce_app/features/home/views/widgets/home_hero_section_widget.dart';
+import 'package:ecommerce_app/features/home/views/widgets/rooms_section_widget.dart';
+import 'package:ecommerce_app/features/home/views/widgets/single_feature_card_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/routing/app_route_names.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/view_state.dart';
 import '../../../../core/widgets/custom_bottom_nav_bar.dart';
+import '../../models/home_section_model.dart';
+import '../../models/home_section_model.dart';
+import '../../viewmodels/home_view_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,65 +21,37 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedRoomIndex = 0;
 
-  final List<Map<String, String>> _rooms = const [
-    {
-      'name': 'Sofas',
-      'image':
-          'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=300&auto=format&fit=crop',
-    },
-    {
-      'name': 'Chairs',
-      'image':
-          'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300&auto=format&fit=crop',
-    },
-    {
-      'name': 'Tables',
-      'image':
-          'https://images.unsplash.com/photo-1617806118233-18e1de247200?w=300&auto=format&fit=crop',
-    },
-    {
-      'name': 'Lamps',
-      'image':
-          'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=300&auto=format&fit=crop',
-    },
-    {
-      'name': 'Beds',
-      'image':
-          'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=300&auto=format&fit=crop',
-    },
-  ];
 
-  final List<Map<String, dynamic>> _featuredProducts = const [
-    {
-      'id': 'p3',
-      'title': 'Fjord Sectional',
-      'rating': 4.9,
-      'price': '\$2,650',
-      'imageUrl':
-          'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=500&auto=format&fit=crop',
-      'isSale': true,
-    },
-    {
-      'id': 'p4',
-      'title': 'Stav Oak Chair',
-      'rating': 4.5,
-      'price': '\$340',
-      'imageUrl':
-          'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500&auto=format&fit=crop',
-      'isSale': false,
-    },
-    {
-      'id': 'p1',
-      'title': 'Bergen Sofa',
-      'rating': 4.8,
-      'price': '\$1,840',
-      'imageUrl':
-          'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500&auto=format&fit=crop',
-      'isSale': false,
-    },
-  ];
+  // final List<Map<String, dynamic>> _featuredProducts = const [
+  //   {
+  //     'id': 'p3',
+  //     'title': 'Fjord Sectional',
+  //     'rating': 4.9,
+  //     'price': '\$2,650',
+  //     'imageUrl':
+  //         'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=500&auto=format&fit=crop',
+  //     'isSale': true,
+  //   },
+  //   {
+  //     'id': 'p4',
+  //     'title': 'Stav Oak Chair',
+  //     'rating': 4.5,
+  //     'price': '\$340',
+  //     'imageUrl':
+  //         'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500&auto=format&fit=crop',
+  //     'isSale': false,
+  //   },
+  //   {
+  //     'id': 'p1',
+  //     'title': 'Bergen Sofa',
+  //     'rating': 4.8,
+  //     'price': '\$1,840',
+  //     'imageUrl':
+  //         'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500&auto=format&fit=crop',
+  //     'isSale': false,
+  //   },
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -86,85 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
               // 1. Top Header Row (Good morning ✦ Mo / Profile)
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              'Good morning ',
-                              style: TextStyle(
-                                fontSize: 13.sp,
-                                color: AppColors.textGrey,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            Icon(
-                              Icons.star,
-                              size: 10.sp,
-                              color: AppColors.textGrey,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 2.h),
-                        Text(
-                          'Mo',
-                          style: AppTextStyles.serifHeader.copyWith(
-                            fontSize: 28.sp,
-                            height: 1.1,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        // Bell Button
-                        Container(
-                          width: 44.r,
-                          height: 44.r,
-                          decoration: const BoxDecoration(
-                            color: AppColors.lightPillBg,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            Icons.notifications_none_rounded,
-                            color: AppColors.textDark,
-                            size: 22.sp,
-                          ),
-                        ),
-                        SizedBox(width: 10.w),
-                        // Profile Avatar
-                        Container(
-                          width: 44.r,
-                          height: 44.r,
-                          decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Color(0xFFB8564D), Color(0xFF832C31)],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(
-                            child: Text(
-                              'E',
-                              style: TextStyle(
-                                color: AppColors.white,
-                                fontSize: 20.sp,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'serif',
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                child: HomeHeroSectionWidget(),
               ),
               SizedBox(height: 16.h),
 
@@ -420,76 +322,7 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 14.h),
 
               // Rooms Horizontal Scroll List
-              SizedBox(
-                height: 120.h,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  itemCount: _rooms.length,
-                  itemBuilder: (context, index) {
-                    final room = _rooms[index];
-                    final isSelected = index == _selectedRoomIndex;
-
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() => _selectedRoomIndex = index);
-                        Navigator.pushNamed(
-                          context,
-                          AppRouteNames.listing,
-                          arguments: {'categoryId': room['name']},
-                        );
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 18.w),
-                        child: Column(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(2.r),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: isSelected
-                                      ? AppColors.primaryMaroon
-                                      : Colors.transparent,
-                                  width: 2.r,
-                                ),
-                              ),
-                              child: ClipOval(
-                                child: Image.network(
-                                  room['image']!,
-                                  width: 60.r,
-                                  height: 60.r,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      Image.asset(
-                                    'assets/images/stav_oak_chair.png',
-                                    width: 60.r,
-                                    height: 60.r,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 6.h),
-                            Text(
-                              room['name']!,
-                              style: TextStyle(
-                                fontSize: 12.sp,
-                                fontWeight: isSelected
-                                    ? FontWeight.bold
-                                    : FontWeight.w500,
-                                color: isSelected
-                                    ? AppColors.primaryMaroon
-                                    : AppColors.textGrey,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
+                RoomsSectionWidget(),
               SizedBox(height: 16.h),
 
               // 5. Featured Section
@@ -537,155 +370,45 @@ class _HomeScreenState extends State<HomeScreen> {
               // Featured Cards Horizontal List
               SizedBox(
                 height: 245.h,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  itemCount: _featuredProducts.length,
-                  itemBuilder: (context, index) {
-                    final item = _featuredProducts[index];
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          AppRouteNames.productDetails,
-                          arguments: {'productId': item['id']},
-                        );
-                      },
-                      child: Container(
-                        width: 170.w,
-                        margin: EdgeInsets.only(right: 14.w),
-                        decoration: BoxDecoration(
-                          color: AppColors.cardBg,
-                          borderRadius: BorderRadius.circular(24.r),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.03),
-                              blurRadius: 10,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
+                child:BlocBuilder<HomeViewModel, ViewState<List<HomeSectionModel>>>(
+                    builder: (context,state){
+                      return switch(state.status){
+                        ViewStatus.loading  => const Center(
+                          child: CircularProgressIndicator(),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: Stack(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.vertical(
-                                      top: Radius.circular(24.r),
-                                    ),
-                                    child: Image.network(
-                                      item['imageUrl'] as String,
-                                      height: double.infinity,
-                                      width: double.infinity,
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (context, error, stackTrace) =>
-                                          Image.asset(
-                                        'assets/images/stav_oak_chair.png',
-                                        height: double.infinity,
-                                        width: double.infinity,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  if (item['isSale'] == true)
-                                    Positioned(
-                                      top: 10.h,
-                                      left: 10.w,
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 10.w,
-                                          vertical: 4.h,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: AppColors.primaryMaroon,
-                                          borderRadius: BorderRadius.circular(
-                                            8.r,
-                                          ),
-                                        ),
-                                        child: Text(
-                                          'SALE',
-                                          style: TextStyle(
-                                            color: AppColors.white,
-                                            fontSize: 10.sp,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  Positioned(
-                                    top: 10.h,
-                                    right: 10.w,
-                                    child: Container(
-                                      padding: EdgeInsets.all(6.r),
-                                      decoration: const BoxDecoration(
-                                        color: AppColors.white,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Icon(
-                                        Icons.favorite_border_rounded,
-                                        size: 16.sp,
-                                        color: AppColors.primaryMaroon,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(10.r),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      ...List.generate(
-                                        5,
-                                        (i) => Icon(
-                                          Icons.star_rounded,
-                                          size: 12.sp,
-                                          color: AppColors.starYellow,
-                                        ),
-                                      ),
-                                      SizedBox(width: 4.w),
-                                      Text(
-                                        '${item['rating']}',
-                                        style: TextStyle(
-                                          fontSize: 10.sp,
-                                          color: AppColors.textGrey,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 2.h),
-                                  Text(
-                                    item['title'] as String,
-                                    style: TextStyle(
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.textDark,
-                                    ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  SizedBox(height: 2.h),
-                                  Text(
-                                    item['price'] as String,
-                                    style: AppTextStyles.serifPrice.copyWith(
-                                      fontSize: 15.sp,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                        ViewStatus.failure => Center(
+                          child: Text('Error In Loading Data'),
                         ),
-                      ),
-                    );
-                  },
-                ),
+                        ViewStatus.success => ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            padding: EdgeInsets.symmetric(horizontal: 20.w),
+                            itemCount: state.data?.length ?? 0,
+                            itemBuilder: (context, index) {
+                              final product = state.data![index];
+
+                              return SingleFeatureCardWidget(
+                                 product.title,
+                                product.price,
+                                product.thumbnail,
+                                product.rating,
+                                    () {
+                                  // Navigator
+                                },
+                                () {
+                                  // add product to fav
+                                },
+                              );
+                            },
+                          ),
+
+                        // TODO: Handle this case.
+                        ViewStatus.initial => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      };
+                    },
+                )
+                ,
               ),
               SizedBox(height: 20.h),
             ],
