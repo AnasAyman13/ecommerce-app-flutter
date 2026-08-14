@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/core/models/favorite_item_model.dart';
 import 'package:ecommerce_app/features/home/views/widgets/home_hero_section_widget.dart';
 import 'package:ecommerce_app/features/home/views/widgets/rooms_section_widget.dart';
 import 'package:ecommerce_app/features/home/views/widgets/single_feature_card_widget.dart';
@@ -14,6 +15,7 @@ import '../../models/home_section_model.dart';
 import '../../viewmodels/home_view_model.dart';
 
 class HomeScreen extends StatefulWidget {
+
   const HomeScreen({super.key});
 
   @override
@@ -387,15 +389,22 @@ class _HomeScreenState extends State<HomeScreen> {
                               final product = state.data![index];
 
                               return SingleFeatureCardWidget(
+                                key: ValueKey('fav_${product.id}'),
+                                product.id,
                                  product.title,
                                 product.price,
                                 product.thumbnail,
                                 product.rating,
+                                context.read<HomeViewModel>().isFavorite(product.id),
                                     () {
                                   // Navigator
                                 },
                                 () {
                                   // add product to fav
+                                    context.read<HomeViewModel>().toggleFavorite(product);
+
+                                  final List<FavoriteItemModel> favList = context.read<HomeViewModel>().getFavorites();
+                                  print("favorite List ${favList.length}");
                                 },
                               );
                             },

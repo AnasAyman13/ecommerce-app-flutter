@@ -38,9 +38,18 @@ class ApiClient {
     String path, {
     Map<String, dynamic>? queryParams,
   }) => _dio.get(path, queryParameters: queryParams);
+
   Future<Response> getProducts() async {
     try {
-      final response = await dio.get(ApiEndpoints.baseUrl);
+      final response = await _dio.get(ApiEndpoints.allProducts);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+  Future<Response> getProductById(int id) async {
+    try {
+      final response = await _dio.get('$id');
       return response;
     } catch (e) {
       rethrow;

@@ -4,7 +4,10 @@ class ApiEndpoints {
   ApiEndpoints._();
 
   // TODO: Replace with your actual API base URL
-  static const String baseUrl = 'https://dummyjson.com/products/category/furniture';
+  static const String baseUrl = 'https://dummyjson.com/products/';
+
+  static const String allProducts = 'category/furniture';
+  //static const String productById =
   // ── Auth ────────────────────────────────────────────
   static const String login = '/auth/login';
   static const String register = '/auth/register';

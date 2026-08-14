@@ -1,24 +1,36 @@
+import 'package:ecommerce_app/core/models/favorite_item_model.dart';
+import 'package:ecommerce_app/features/home/viewmodels/home_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 
+import '../../../../core/di/service_locator.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 
-class SingleFeatureCardWidget extends StatelessWidget{
-    final String name;
-    final double price;
-    final String imgUrl;
-    final double rating;
-    final VoidCallback onTap;
-    final VoidCallback? onFavoriteTap;
+class SingleFeatureCardWidget extends StatefulWidget{
+  final int id;
+  final String name;
+  final double price;
+  final String imgUrl;
+  final double rating;
+  final bool isFavorite;
+  final VoidCallback onTap;
+  final VoidCallback? onFavoriteTap;
+  SingleFeatureCardWidget(this.id,this.name,this.price,this.imgUrl,this.rating,this.isFavorite,this.onTap,
+      this.onFavoriteTap,{super.key});
+  @override
+  State<StatefulWidget> createState() => _SingleFeatureCardWidget();
+  }
 
-    SingleFeatureCardWidget(this.name,this.price,this.imgUrl,this.rating,this.onTap,
-        this.onFavoriteTap,);
+class _SingleFeatureCardWidget extends State<SingleFeatureCardWidget>{
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Container(
         width: 170.w,
         margin: EdgeInsets.only(right: 14.w),
@@ -44,7 +56,7 @@ class SingleFeatureCardWidget extends StatelessWidget{
                       top: Radius.circular(24.r),
                     ),
                     child: Image.network(
-                      imgUrl,
+                      widget.imgUrl,
                       height: double.infinity,
                       width: double.infinity,
                       fit: BoxFit.cover,
@@ -86,16 +98,24 @@ class SingleFeatureCardWidget extends StatelessWidget{
                     top: 10.h,
                     right: 10.w,
                     child: Container(
-                      padding: EdgeInsets.all(6.r),
+                     // padding: EdgeInsets.all(1.r),
                       decoration: const BoxDecoration(
                         color: AppColors.white,
                         shape: BoxShape.circle,
                       ),
-                      child: Icon(
-                        Icons.favorite_border_rounded,
-                        size: 16.sp,
-                        color: AppColors.primaryMaroon,
-                      ),
+                      child: ValueListenableBuilder<Box>(
+                          valueListenable: Hive.box<FavoriteItemModel>("favorites_box").listenable(),
+                          builder: (context,box,child){
+                            final isFavorite = box.containsKey(widget.id);
+                            return IconButton(
+                              color: AppColors.primaryMaroon,
+                              onPressed: widget.onFavoriteTap,
+                              icon: Icon(
+                                  isFavorite
+                                      ? Icons.favorite
+                                      : Icons.favorite_border),
+                            );
+                          }),
                     ),
                   ),
                 ],
@@ -118,7 +138,7 @@ class SingleFeatureCardWidget extends StatelessWidget{
                       ),
                       SizedBox(width: 4.w),
                       Text(
-                        rating.toString(),
+                        widget.rating.toString(),
                         style: TextStyle(
                           fontSize: 10.sp,
                           color: AppColors.textGrey,
@@ -129,7 +149,7 @@ class SingleFeatureCardWidget extends StatelessWidget{
                   ),
                   SizedBox(height: 2.h),
                   Text(
-                    name,
+                    widget.name,
                     style: TextStyle(
                       fontSize: 13.sp,
                       fontWeight: FontWeight.bold,
@@ -140,7 +160,7 @@ class SingleFeatureCardWidget extends StatelessWidget{
                   ),
                   SizedBox(height: 2.h),
                   Text(
-                    price.toString(),
+                    widget.price.toString(),
                     style: AppTextStyles.serifPrice.copyWith(
                       fontSize: 15.sp,
                     ),
@@ -154,3 +174,4 @@ class SingleFeatureCardWidget extends StatelessWidget{
     );
   }
 }
+
