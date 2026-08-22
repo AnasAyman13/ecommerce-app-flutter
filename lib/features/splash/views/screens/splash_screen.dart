@@ -1,5 +1,4 @@
 import 'package:ecommerce_app/features/onboarding/views/screens/onboarding_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -18,13 +17,13 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _navigateToNextScreen() {
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 3), () {
       if (!mounted) return;
 
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => OnboardingScreen(),
+          builder: (context) =>  OnboardingScreen(),
         ),
       );
     });
@@ -33,8 +32,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF2C1917),
       body: Stack(
-        alignment: Alignment.center,
+        alignment: Alignment.topCenter,
         children: [
           Image.asset(
             'assets/images/splash_img.png',
@@ -46,63 +46,99 @@ class _SplashScreenState extends State<SplashScreen> {
           Container(
             width: double.infinity,
             height: double.infinity,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Color.fromRGBO(57, 32, 30, 0.2),
-                  Color.fromRGBO(57, 32, 30, 0.65),
-                  Color.fromRGBO(57, 32, 30, 1.0),
-                ],
-                stops: [0.0, 0.5, 1.0],
-              ),
-            ),
+            color: const Color(0xFF2C1E1C).withOpacity(0.82),
           ),
 
           SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.08),
-                    borderRadius: BorderRadius.circular(24),
-                    border: Border.all(color: Colors.white.withOpacity(0.12)),
-                  ),
-                  child: const Icon(
-                    Icons.chair_outlined,
-                    color: Color(0xFFD4A373),
-                    size: 38,
-                  ),
-                ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 24.h),
+              child: Column(
+                children: [
+                  const Spacer(),
 
-                const SizedBox(height: 24),
-
-                const Text(
-                  "NORR",
-                  style: TextStyle(
-                    fontSize: 48,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 4.0,
-                    color: Colors.white,
+                  Container(
+                    width: 72.r,
+                    height: 72.r,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.06),
+                      borderRadius: BorderRadius.circular(22.r),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.15),
+                        width: 1,
+                      ),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.chair_outlined,
+                        color: const Color(0xFFC69C6D),
+                        size: 32.r,
+                      ),
+                    ),
                   ),
-                ),
 
-                const SizedBox(height: 8),
+                  SizedBox(height: 20.h),
 
-                const Text(
-                  "LUXURY FURNITURE",
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 3.5,
-                    color: Color(0xFFC69C6D),
+                  Text(
+                    "NORR",
+                    style: TextStyle(
+                      fontFamily: "Fraunces",
+                      fontSize: 42.sp,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 3.0,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-              ],
+
+                  SizedBox(height: 6.h),
+
+                  Text(
+                    "LUXURY FURNITURE",
+                    style: TextStyle(
+                      fontFamily: "Fraunces",
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 2.8,
+                      color: const Color(0xFFC69C6D),
+                    ),
+                  ),
+
+                  const Spacer(),
+
+                  Container(
+                    width: 32.r,
+                    height: 32.r,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.2),
+                        width: 1,
+                      ),
+                    ),
+                    child: Center(
+                      child: Container(
+                        width: 6.r,
+                        height: 6.r,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFC69C6D),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 16.h),
+
+                  Text(
+                    "CRAFTED WITH INTENTION",
+                    style: TextStyle(
+                      fontSize: 10.sp,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 2.0,
+                      color: Colors.white.withOpacity(0.45),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

@@ -1,9 +1,13 @@
+import 'package:ecommerce_app/core/api/api_client.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../features/auth/views/screens/login_screen.dart';
 import '../../features/auth/views/screens/register_screen.dart';
 import '../../features/cart/views/screens/cart_screen.dart';
 import '../../features/categories/views/screens/categories_screen.dart';
+import '../../features/home/repositories/home_repository.dart';
+import '../../features/home/viewmodels/home_view_model.dart';
 import '../../features/home/views/screens/home_screen.dart';
 import '../../features/listing/views/screens/listing_screen.dart';
 import '../../features/onboarding/views/screens/onboarding_screen.dart';
@@ -14,19 +18,23 @@ import '../../features/search/views/screens/search_screen.dart';
 import '../../features/settings/views/screens/settings_screen.dart';
 import '../../features/splash/views/screens/splash_screen.dart';
 import '../../features/wishlist/views/screens/wishlist_screen.dart';
+import '../di/service_locator.dart';
 import 'app_route_names.dart';
 
 class AppRouter {
   AppRouter._();
 
-  static const String initialRoute = AppRouteNames.home;
+  static const String initialRoute = AppRouteNames.splash;
 
   static Map<String, WidgetBuilder> get routes => {
     AppRouteNames.splash: (_) => const SplashScreen(),
     AppRouteNames.onboarding: (_) => OnboardingScreen(),
     AppRouteNames.login: (_) => const LoginScreen(),
     AppRouteNames.register: (_) => const RegisterScreen(),
-    AppRouteNames.home: (_) => const HomeScreen(),
+    AppRouteNames.home: (context) => BlocProvider(
+      create: (context) => sl<HomeViewModel>()..loadHome(),
+      child: const HomeScreen(),
+    ),
     AppRouteNames.categories: (_) => const CategoriesScreen(),
     AppRouteNames.cart: (_) => const CartScreen(),
     AppRouteNames.orders: (_) => const OrdersScreen(),

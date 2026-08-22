@@ -68,24 +68,28 @@ class AppTextStyles {
   );
 
   static TextStyle buttonText = TextStyle(
+    fontFamily: "Fraunces",
     fontSize: 15.sp,
     fontWeight: FontWeight.bold,
     color: AppColors.white,
   );
 
   static TextStyle onboardingHeadingtxt = TextStyle(
+    fontFamily: "Fraunces",
     fontSize: 36,
     fontWeight: FontWeight.w700,
     color: AppColors.darkBrown,
   );
 
   static TextStyle taupeGrey15w400 = TextStyle(
+    fontFamily: "Fraunces",
     fontSize: 15.sp,
     fontWeight: FontWeight.w400,
     color: AppColors.taupeGrey,
   );
 
   static TextStyle goldAccent11w600 = TextStyle(
+    fontFamily: "Fraunces",
     fontWeight: FontWeight.w600,
     fontSize: 11.sp,
     color: AppColors.goldAccent,
