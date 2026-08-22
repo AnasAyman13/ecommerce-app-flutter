@@ -3,6 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/routing/app_route_names.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../cart/models/cart_item_model.dart';
+import '../../../cart/view_models/cart_view_model.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final String? productId;
@@ -59,10 +62,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               return Image.network(
                                 _images[index],
                                 fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) => Container(
-                                  color: AppColors.lightPillBg,
-                                  child: const Icon(Icons.chair, size: 60, color: AppColors.textGrey),
-                                ),
+                                errorBuilder: (context, error, stackTrace) =>
+                                    Container(
+                                      color: AppColors.lightPillBg,
+                                      child: const Icon(
+                                        Icons.chair,
+                                        size: 60,
+                                        color: AppColors.textGrey,
+                                      ),
+                                    ),
                               );
                             },
                           ),
@@ -110,7 +118,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   SizedBox(width: 10.w),
                                   GestureDetector(
                                     onTap: () {
-                                      setState(() => _isFavorite = !_isFavorite);
+                                      setState(
+                                        () => _isFavorite = !_isFavorite,
+                                      );
                                     },
                                     child: Container(
                                       width: 42.r,
@@ -120,7 +130,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         shape: BoxShape.circle,
                                       ),
                                       child: Icon(
-                                        _isFavorite ? Icons.favorite : Icons.favorite_border,
+                                        _isFavorite
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
                                         color: AppColors.primaryMaroon,
                                         size: 20.sp,
                                       ),
@@ -147,7 +159,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 width: isActive ? 20.w : 6.w,
                                 height: 6.h,
                                 decoration: BoxDecoration(
-                                  color: isActive ? AppColors.primaryMaroon : AppColors.white.withOpacity(0.7),
+                                  color: isActive
+                                      ? AppColors.primaryMaroon
+                                      : AppColors.white.withOpacity(0.7),
                                   borderRadius: BorderRadius.circular(4.r),
                                 ),
                               );
@@ -168,7 +182,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 10.w,
+                                  vertical: 4.h,
+                                ),
                                 decoration: BoxDecoration(
                                   color: AppColors.lightPillBg,
                                   borderRadius: BorderRadius.circular(12.r),
@@ -241,7 +258,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               ),
                               SizedBox(width: 10.w),
                               Container(
-                                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 8.w,
+                                  vertical: 3.h,
+                                ),
                                 decoration: BoxDecoration(
                                   color: AppColors.primaryMaroon,
                                   borderRadius: BorderRadius.circular(8.r),
@@ -270,18 +290,23 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           ),
                           SizedBox(height: 10.h),
                           Row(
-                            children: List.generate(_colorOptions.length, (index) {
+                            children: List.generate(_colorOptions.length, (
+                              index,
+                            ) {
                               final option = _colorOptions[index];
                               final isSelected = index == _selectedColorIndex;
                               return GestureDetector(
-                                onTap: () => setState(() => _selectedColorIndex = index),
+                                onTap: () =>
+                                    setState(() => _selectedColorIndex = index),
                                 child: Container(
                                   margin: EdgeInsets.only(right: 12.w),
                                   padding: EdgeInsets.all(3.r),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(
-                                      color: isSelected ? AppColors.primaryMaroon : Colors.transparent,
+                                      color: isSelected
+                                          ? AppColors.primaryMaroon
+                                          : Colors.transparent,
                                       width: 2.r,
                                     ),
                                   ),
@@ -327,7 +352,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           SizedBox(height: 10.h),
                           _buildSpecRow('Dimensions', '240W × 105D × 78H cm'),
                           _buildSpecRow('Frame', 'Solid Scandinavian Oak'),
-                          _buildSpecRow('Upholstery', 'Tactile Textured Bouclé'),
+                          _buildSpecRow(
+                            'Upholstery',
+                            'Tactile Textured Bouclé',
+                          ),
                           _buildSpecRow('Assembly', 'White-glove included'),
                           SizedBox(height: 20.h),
                         ],
@@ -376,6 +404,23 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
+                        final cartViewModel = context.read<CartViewModel>();
+
+                        final selectedColor =
+                            _colorOptions[_selectedColorIndex]['name']
+                                as String;
+
+                        cartViewModel.addItem(
+                          CartItemModel(
+                            id: widget.productId ?? 'bergen-sofa',
+                            title: 'Bergen Lounge Sofa',
+                            variant: '$selectedColor · Bouclé',
+                            price: 1840,
+                            imageUrl: _images[_selectedImageIndex],
+                            quantity: 1,
+                          ),
+                        );
+
                         Navigator.pushNamed(context, AppRouteNames.cart);
                       },
                       child: Container(
@@ -427,7 +472,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           ),
           Text(
             value,
-            style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold, color: AppColors.textDark),
+            style: TextStyle(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.bold,
+              color: AppColors.textDark,
+            ),
           ),
         ],
       ),
