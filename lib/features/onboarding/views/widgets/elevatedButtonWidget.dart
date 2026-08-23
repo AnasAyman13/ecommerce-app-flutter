@@ -22,7 +22,7 @@ class Elevatedbuttonwidget extends StatelessWidget{
         borderRadius: BorderRadius.circular(29.r),
       ),
       child: ElevatedButton.icon(
-        onPressed: onPressed ?? () {},
+        onPressed: onPressed ,
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
