@@ -6,7 +6,7 @@ class StorageKeys {
   static const String refreshToken = 'refresh_token';
   static const String userId = 'user_id';
   static const String userEmail = 'user_email';
-  static const String isOnboarded = 'is_onboarded';
+  static const String onboardingKey = 'is_onboarding_visited';
   static const String isDarkMode = 'is_dark_mode';
   static const String selectedLanguage = 'selected_language';
 }

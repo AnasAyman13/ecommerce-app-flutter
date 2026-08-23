@@ -9,14 +9,23 @@ class OnboardingViewModel extends Cubit<ViewState<List<OnboardingPageModel>>> {
 
   OnboardingViewModel(this._repository) : super(const ViewState.initial());
 
-  Future<void> loadPages() async {
-    emit(const ViewState.loading());
+  Future<void> completeOnboarding() async {
+    emit( ViewState.loading());
     try {
-      emit(ViewState.success(await _repository.getPages()));
+      await _repository.isOnboardingVisited();
+      emit( ViewState.success([])); 
     } catch (error) {
       emit(ViewState.failure(error.toString()));
     }
   }
+  // Future<void> loadPages() async {
+  //   emit(const ViewState.loading());
+  //   try {
+  //     emit(ViewState.success(await _repository.getPages()));
+  //   } catch (error) {
+  //     emit(ViewState.failure(error.toString()));
+  //   }
+  // }
 
-  Future<void> complete() => _repository.completeOnboarding();
+  // Future<void> complete() => _repository.completeOnboarding();
 }

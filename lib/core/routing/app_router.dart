@@ -1,4 +1,6 @@
 import 'package:ecommerce_app/core/api/api_client.dart';
+import 'package:ecommerce_app/features/onboarding/viewmodels/onboarding_view_model.dart';
+import 'package:ecommerce_app/features/splash/viewmodels/splash_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,8 +29,16 @@ class AppRouter {
   static const String initialRoute = AppRouteNames.splash;
 
   static Map<String, WidgetBuilder> get routes => {
-    AppRouteNames.splash: (_) => const SplashScreen(),
-    AppRouteNames.onboarding: (_) => OnboardingScreen(),
+    //AppRouteNames.splash: (_) => const SplashScreen(),
+    AppRouteNames.splash: (context) => BlocProvider(
+      create: (context) => sl<SplashViewModel>()..initialize(),
+      child: const SplashScreen(),
+    ),
+    //AppRouteNames.onboarding: (_) => OnboardingScreen(),
+    AppRouteNames.onboarding: (context) => BlocProvider(
+      create: (context) => sl<OnboardingViewModel>()..completeOnboarding(),
+      child: const OnboardingScreen(),
+    ),
     AppRouteNames.login: (_) => const LoginScreen(),
     AppRouteNames.register: (_) => const RegisterScreen(),
     AppRouteNames.home: (context) => BlocProvider(
