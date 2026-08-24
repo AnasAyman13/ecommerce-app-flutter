@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../models/wishlist_item_model.dart';
+import '../../../../core/theme/locale_controller.dart';
 
 class WishlistItemCard extends StatelessWidget {
   final WishlistItemModel item;
@@ -105,7 +106,7 @@ class WishlistItemCard extends StatelessWidget {
                   ),
                   SizedBox(height: 3.h),
                   Text(
-                    item.title,
+                    localizedProductName(context, item.title),
                     style: TextStyle(
                       fontSize: 13.sp,
                       fontWeight: FontWeight.bold,
@@ -117,9 +118,7 @@ class WishlistItemCard extends StatelessWidget {
                   SizedBox(height: 2.h),
                   Text(
                     item.price,
-                    style: AppTextStyles.serifPrice.copyWith(
-                      fontSize: 15.sp,
-                    ),
+                    style: AppTextStyles.serifPrice.copyWith(fontSize: 15.sp),
                   ),
                 ],
               ),

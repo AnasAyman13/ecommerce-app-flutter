@@ -50,16 +50,11 @@ class WishlistSummaryCard extends StatelessWidget {
           GestureDetector(
             onTap: onAddAllToCart,
             child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 16.w,
-                vertical: 10.h,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(20.r),
-                border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.3),
-                ),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
               ),
               child: Text(
                 'Add all to cart',

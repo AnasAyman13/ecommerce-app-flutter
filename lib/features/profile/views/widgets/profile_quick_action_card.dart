@@ -35,15 +35,11 @@ class ProfileQuickActionCard extends StatelessWidget {
           children: [
             Container(
               padding: EdgeInsets.all(10.r),
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: AppColors.lightPillBg,
                 shape: BoxShape.circle,
               ),
-              child: Icon(
-                icon,
-                color: AppColors.primaryMaroon,
-                size: 20.sp,
-              ),
+              child: Icon(icon, color: AppColors.primaryMaroon, size: 20.sp),
             ),
             SizedBox(height: 8.h),
             Text(

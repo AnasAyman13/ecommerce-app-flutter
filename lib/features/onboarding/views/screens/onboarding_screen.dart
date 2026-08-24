@@ -30,10 +30,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return BlocListener<OnboardingViewModel, ViewState<void>>(
       listener: (context, state) {
         if (state.status == ViewStatus.success) {
-
-        } else if (state.status == ViewStatus.failure) {
-          
-        }
+        } else if (state.status == ViewStatus.failure) {}
       },
       child: Scaffold(
         body: SingleChildScrollView(

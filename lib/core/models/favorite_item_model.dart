@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 part 'favorite_item_model.g.dart';
 
 @HiveType(typeId: 0)
-class FavoriteItemModel extends HiveObject{
+class FavoriteItemModel extends HiveObject {
   @HiveField(0)
   final int id;
 
@@ -12,7 +12,6 @@ class FavoriteItemModel extends HiveObject{
 
   @HiveField(3)
   final double price;
-
 
   @HiveField(5)
   final double rating;
@@ -23,10 +22,12 @@ class FavoriteItemModel extends HiveObject{
   @HiveField(11)
   final String availabilityStatus;
 
-  FavoriteItemModel({ required this.id,
+  FavoriteItemModel({
+    required this.id,
     required this.title,
     required this.price,
     required this.rating,
     required this.thumbnail,
-    required this.availabilityStatus,});
+    required this.availabilityStatus,
+  });
 }

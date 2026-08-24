@@ -1,31 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../../core/database/fav_repository/favorites_repository.dart';
 import '../models/profile_user_model.dart';
 
 class ProfileViewModel extends ChangeNotifier {
-  ProfileUserModel _user = const ProfileUserModel(
-    name: 'Elina Bergström',
-    email: 'elina@norr.co',
-    memberSince: '2022',
-    badge: '+ GOLD MEMBER',
-    ordersCount: 12,
-    reviewsCount: 4,
-    savedCount: 28,
-    spentAmount: '\$8.2k',
+  final SharedPreferences _preferences;
+  final FavoritesRepository _favorites;
+
+  ProfileViewModel(this._preferences, this._favorites);
+
+  ProfileUserModel get user => ProfileUserModel(
+    name: _preferences.getString('session_user') ?? 'Guest',
+    email: _preferences.getString('session_email') ?? 'Not signed in',
+    memberSince: '2026',
+    badge: 'NORR MEMBER',
+    ordersCount: _preferences.getInt('orders_count') ?? 0,
+    reviewsCount: _preferences.getInt('reviews_count') ?? 0,
+    savedCount: _favorites.getFavorites().length,
+    spentAmount: 'EGP 0',
   );
 
-  ProfileUserModel get user => _user;
-
   void updateUserProfile({String? name, String? email}) {
-    _user = ProfileUserModel(
-      name: name ?? _user.name,
-      email: email ?? _user.email,
-      memberSince: _user.memberSince,
-      badge: _user.badge,
-      ordersCount: _user.ordersCount,
-      reviewsCount: _user.reviewsCount,
-      savedCount: _user.savedCount,
-      spentAmount: _user.spentAmount,
-    );
+    if (name != null) _preferences.setString('session_user', name);
+    if (email != null) _preferences.setString('session_email', email);
     notifyListeners();
   }
 }

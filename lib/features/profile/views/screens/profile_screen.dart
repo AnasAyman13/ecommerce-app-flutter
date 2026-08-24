@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../core/di/service_locator.dart';
+import '../../../../core/database/fav_repository/favorites_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/routing/app_route_names.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/locale_controller.dart';
 import '../../../../core/widgets/custom_bottom_nav_bar.dart';
 import '../../viewmodels/profile_view_model.dart';
 import '../widgets/profile_header_card.dart';
@@ -21,7 +25,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    _viewModel = ProfileViewModel();
+    _viewModel = ProfileViewModel(
+      sl<SharedPreferences>(),
+      sl<FavoritesRepository>(),
+    );
     _viewModel.addListener(_onViewModelChanged);
   }
 
@@ -57,24 +64,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Expanded(
                       child: ProfileQuickActionCard(
                         icon: Icons.edit_outlined,
-                        label: 'Edit profile',
-                        onTap: () {},
+                        label: tr(context, 'Edit profile', 'تعديل الحساب'),
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          AppRouteNames.settings,
+                        ),
                       ),
                     ),
                     SizedBox(width: 12.w),
                     Expanded(
                       child: ProfileQuickActionCard(
                         icon: Icons.chat_bubble_outline_rounded,
-                        label: 'Support',
-                        onTap: () {},
+                        label: tr(context, 'Support', 'الدعم'),
+                        onTap: () => _showInfo(
+                          context,
+                          tr(context, 'Support', 'الدعم'),
+                          tr(
+                            context,
+                            'We are here to help. Contact support@norr.co.',
+                            'نحن هنا لمساعدتك. تواصل مع support@norr.co.',
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(width: 12.w),
                     Expanded(
                       child: ProfileQuickActionCard(
                         icon: Icons.shield_outlined,
-                        label: 'Privacy',
-                        onTap: () {},
+                        label: tr(context, 'Privacy', 'الخصوصية'),
+                        onTap: () => _showInfo(
+                          context,
+                          tr(context, 'Privacy', 'الخصوصية'),
+                          tr(
+                            context,
+                            'Your local profile and cart data stay on this device.',
+                            'بيانات حسابك وسلة التسوق محفوظة محليًا على جهازك.',
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -87,7 +113,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     ProfileOptionTile(
                       icon: Icons.receipt_long_outlined,
-                      title: 'My Orders',
+                      title: tr(context, 'My Orders', 'طلباتي'),
                       badge: '${_viewModel.user.ordersCount}',
                       onTap: () {
                         Navigator.pushNamed(context, AppRouteNames.orders);
@@ -96,7 +122,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(height: 10.h),
                     ProfileOptionTile(
                       icon: Icons.favorite_border_rounded,
-                      title: 'Wishlist',
+                      title: tr(context, 'Wishlist', 'المفضلة'),
                       badge: '${_viewModel.user.savedCount}',
                       onTap: () {
                         Navigator.pushNamed(context, AppRouteNames.wishlist);
@@ -105,15 +131,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(height: 10.h),
                     ProfileOptionTile(
                       icon: Icons.location_on_outlined,
-                      title: 'Delivery Addresses',
+                      title: tr(
+                        context,
+                        'Delivery Addresses',
+                        'عناوين التوصيل',
+                      ),
                       onTap: () {
-                        Navigator.pushNamed(context, AppRouteNames.settings);
+                        Navigator.pushNamed(
+                          context,
+                          AppRouteNames.settings,
+                          arguments: {'openAddress': true},
+                        );
                       },
                     ),
                     SizedBox(height: 10.h),
                     ProfileOptionTile(
                       icon: Icons.help_outline_rounded,
-                      title: 'Help & Support',
+                      title: tr(context, 'Help & Support', 'المساعدة والدعم'),
                       onTap: () {
                         Navigator.pushNamed(context, AppRouteNames.settings);
                       },
@@ -121,7 +155,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(height: 10.h),
                     ProfileOptionTile(
                       icon: Icons.lock_outline_rounded,
-                      title: 'Privacy & Security',
+                      title: tr(
+                        context,
+                        'Privacy & Security',
+                        'الخصوصية والأمان',
+                      ),
                       onTap: () {
                         Navigator.pushNamed(context, AppRouteNames.settings);
                       },
@@ -137,4 +175,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
       bottomNavigationBar: const CustomBottomNavBar(currentIndex: 4),
     );
   }
+}
+
+void _showInfo(BuildContext context, String title, String message) {
+  showDialog<void>(
+    context: context,
+    builder: (_) => AlertDialog(
+      title: Text(title),
+      content: SelectableText(message),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('OK'),
+        ),
+      ],
+    ),
+  );
 }

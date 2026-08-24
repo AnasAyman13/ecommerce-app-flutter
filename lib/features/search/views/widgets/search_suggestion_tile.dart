@@ -23,11 +23,7 @@ class SearchSuggestionTile extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
         child: Row(
           children: [
-            Icon(
-              Icons.search_rounded,
-              size: 16.sp,
-              color: AppColors.textGrey,
-            ),
+            Icon(Icons.search_rounded, size: 16.sp, color: AppColors.textGrey),
             SizedBox(width: 12.w),
             RichText(
               text: TextSpan(
@@ -35,7 +31,7 @@ class SearchSuggestionTile extends StatelessWidget {
                 children: [
                   TextSpan(
                     text: prefix,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppColors.primaryMaroon,
                       fontWeight: FontWeight.bold,
                     ),

@@ -22,13 +22,8 @@ class SettingsItem extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
       child: Container(
-        constraints: const BoxConstraints(
-          minHeight: 60,
-        ),
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 10,
-        ),
+        constraints: const BoxConstraints(minHeight: 60),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         child: Row(
           children: [
             Expanded(
@@ -38,19 +33,19 @@ class SettingsItem extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: Color(0xFF2F2925),
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                   if (subtitle != null) ...[
                     const SizedBox(height: 3),
                     Text(
                       subtitle!,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 9,
-                        color: Color(0xFF9A8D83),
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
                     ),
                   ],
@@ -64,19 +59,19 @@ class SettingsItem extends StatelessWidget {
                   trailingText!,
                   textAlign: TextAlign.right,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 10,
-                    color: Color(0xFF9A8D83),
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                 ),
               ),
               const SizedBox(width: 5),
             ],
 
-            const Icon(
+            Icon(
               Icons.chevron_right_rounded,
               size: 17,
-              color: Color(0xFF9B8D83),
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
           ],
         ),

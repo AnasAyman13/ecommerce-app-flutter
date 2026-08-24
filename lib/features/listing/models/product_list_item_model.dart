@@ -17,6 +17,21 @@ class ProductListItemModel extends Equatable {
     this.rating = 0,
   });
 
+  factory ProductListItemModel.fromJson(Map<String, dynamic> json) {
+    final price = (json['price'] as num? ?? 0).toDouble();
+    final discount = (json['discountPercentage'] as num? ?? 0).toDouble();
+    return ProductListItemModel(
+      id: '${json['id'] ?? ''}',
+      name: '${json['title'] ?? ''}',
+      imageUrl: (json['thumbnail'] as String?)?.isNotEmpty == true
+          ? json['thumbnail'] as String
+          : ((json['images'] as List<dynamic>?)?.firstOrNull?.toString() ?? ''),
+      price: price,
+      oldPrice: discount > 0 ? price / (1 - discount / 100) : null,
+      rating: (json['rating'] as num? ?? 0).toDouble(),
+    );
+  }
+
   @override
   List<Object?> get props => [id, name, imageUrl, price, oldPrice, rating];
 }

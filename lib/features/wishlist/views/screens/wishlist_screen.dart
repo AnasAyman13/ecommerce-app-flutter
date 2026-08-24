@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../core/di/service_locator.dart';
 import '../../../../core/routing/app_route_names.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/custom_bottom_nav_bar.dart';
+import '../../../../core/theme/locale_controller.dart';
 import '../../viewmodels/wishlist_view_model.dart';
 import '../widgets/wishlist_item_card.dart';
 import '../widgets/wishlist_summary_card.dart';
@@ -21,7 +23,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
   @override
   void initState() {
     super.initState();
-    _viewModel = WishlistViewModel();
+    _viewModel = WishlistViewModel(sl());
     _viewModel.addListener(_onViewModelChanged);
   }
 
@@ -55,7 +57,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'My Wishlist',
+                          tr(context, 'My Wishlist', 'قائمتي المفضلة'),
                           style: AppTextStyles.serifHeader.copyWith(
                             fontSize: 26.sp,
                             color: AppColors.textDark,

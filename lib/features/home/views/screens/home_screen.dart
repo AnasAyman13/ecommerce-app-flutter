@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:ecommerce_app/core/models/favorite_item_model.dart';
 import 'package:ecommerce_app/features/home/views/widgets/home_hero_section_widget.dart';
 import 'package:ecommerce_app/features/home/views/widgets/rooms_section_widget.dart';
@@ -8,14 +9,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/routing/app_route_names.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/theme/locale_controller.dart';
 import '../../../../core/utils/view_state.dart';
 import '../../../../core/widgets/custom_bottom_nav_bar.dart';
-import '../../models/home_section_model.dart';
 import '../../models/home_section_model.dart';
 import '../../viewmodels/home_view_model.dart';
 
 class HomeScreen extends StatefulWidget {
-
   const HomeScreen({super.key});
 
   @override
@@ -23,42 +23,42 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String? _selectedCategory;
+  int _bannerIndex = 0;
+  Timer? _bannerTimer;
+  final PageController _bannerController = PageController();
+  final _bannerImages = const [
+    'https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-bed/thumbnail.webp',
+    'https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-sofa/thumbnail.webp',
+    'https://cdn.dummyjson.com/product-images/furniture/bedside-table-african-cherry/thumbnail.webp',
+  ];
 
+  @override
+  void initState() {
+    super.initState();
+    _bannerTimer = Timer.periodic(const Duration(seconds: 4), (_) {
+      if (!mounted) return;
+      final next = (_bannerIndex + 1) % _bannerImages.length;
+      _bannerController.animateToPage(
+        next,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
 
-  // final List<Map<String, dynamic>> _featuredProducts = const [
-  //   {
-  //     'id': 'p3',
-  //     'title': 'Fjord Sectional',
-  //     'rating': 4.9,
-  //     'price': '\$2,650',
-  //     'imageUrl':
-  //         'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=500&auto=format&fit=crop',
-  //     'isSale': true,
-  //   },
-  //   {
-  //     'id': 'p4',
-  //     'title': 'Stav Oak Chair',
-  //     'rating': 4.5,
-  //     'price': '\$340',
-  //     'imageUrl':
-  //         'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500&auto=format&fit=crop',
-  //     'isSale': false,
-  //   },
-  //   {
-  //     'id': 'p1',
-  //     'title': 'Bergen Sofa',
-  //     'rating': 4.8,
-  //     'price': '\$1,840',
-  //     'imageUrl':
-  //         'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500&auto=format&fit=crop',
-  //     'isSale': false,
-  //   },
-  // ];
+  @override
+  void dispose() {
+    _bannerTimer?.cancel();
+    _bannerController.dispose();
+    super.dispose();
+  }
+  // Featured products are loaded from the catalog API below.
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.bgCream,
+      backgroundColor: Colors.transparent,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -96,7 +96,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             Navigator.pushNamed(context, AppRouteNames.listing);
                           },
                           decoration: InputDecoration(
-                            hintText: 'Search furniture, rooms...',
+                            hintText: tr(
+                              context,
+                              'Search furniture, rooms...',
+                              'ابحث عن أثاث وغرف...',
+                            ),
                             hintStyle: TextStyle(
                               color: AppColors.textGrey,
                               fontSize: 14,
@@ -141,43 +145,65 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Container(
                     height: 200.h,
                     width: double.infinity,
-                    decoration: const BoxDecoration(color: Color(0xFF261916)),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? const Color(0xFF2A2422)
+                          : Colors.white,
+                      border: Border.all(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? const Color(0xFF5A4B45)
+                            : const Color(0xFFE8DED5),
+                      ),
+                    ),
                     child: Stack(
                       children: [
                         // Background image
-                        Image.network(
-                          'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&auto=format&fit=crop',
-                          width: double.infinity,
-                          height: double.infinity,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) =>
-                              Image.asset(
-                            'assets/images/stav_oak_chair.png',
+                        PageView.builder(
+                          controller: _bannerController,
+                          itemCount: _bannerImages.length,
+                          onPageChanged: (index) =>
+                              setState(() => _bannerIndex = index),
+                          itemBuilder: (_, index) => Image.network(
+                            _bannerImages[index],
                             width: double.infinity,
                             height: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        // Dark overlay gradient
-                        Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.black.withValues(alpha: 0.65),
-                                Colors.black.withValues(alpha: 0.2),
-                              ],
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
+                            fit: BoxFit.contain,
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                ? const Color(0xFFC9BBB3)
+                                : null,
+                            colorBlendMode: BlendMode.modulate,
+                            errorBuilder: (_, __, ___) => Image.asset(
+                              'assets/images/stav_oak_chair.png',
+                              fit: BoxFit.cover,
                             ),
                           ),
+                        ),
+                        Container(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.black.withValues(alpha: .08)
+                              : Colors.white.withValues(alpha: .02),
                         ),
                         // Text & Content
                         Positioned(
                           top: 20.h,
-                          left: 20.w,
-                          right: 120.w,
+                          left:
+                              Localizations.localeOf(context).languageCode ==
+                                  'ar'
+                              ? null
+                              : 20.w,
+                          right:
+                              Localizations.localeOf(context).languageCode ==
+                                  'ar'
+                              ? 20.w
+                              : null,
+                          width: 138.w,
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment:
+                                Localizations.localeOf(context).languageCode ==
+                                    'ar'
+                                ? CrossAxisAlignment.end
+                                : CrossAxisAlignment.start,
                             children: [
                               // NEW ARRIVAL pill
                               Container(
@@ -190,7 +216,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   borderRadius: BorderRadius.circular(16.r),
                                 ),
                                 child: Text(
-                                  'NEW ARRIVAL',
+                                  tr(context, 'NEW ARRIVAL', 'وصل حديثًا'),
+                                  textAlign:
+                                      Localizations.localeOf(
+                                            context,
+                                          ).languageCode ==
+                                          'ar'
+                                      ? TextAlign.right
+                                      : TextAlign.left,
                                   style: TextStyle(
                                     color: AppColors.textDark,
                                     fontSize: 10.sp,
@@ -201,12 +234,23 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               SizedBox(height: 12.h),
                               Text(
-                                'Oslo Sofa\nCollection',
+                                tr(
+                                  context,
+                                  'Oslo Sofa\nCollection',
+                                  'مجموعة\nأوسلو',
+                                ),
                                 style: AppTextStyles.serifHeader.copyWith(
-                                  color: AppColors.white,
+                                  color: AppColors.textDark,
                                   fontSize: 22.sp,
                                   height: 1.15,
                                 ),
+                                textAlign:
+                                    Localizations.localeOf(
+                                          context,
+                                        ).languageCode ==
+                                        'ar'
+                                    ? TextAlign.right
+                                    : TextAlign.left,
                               ),
                               SizedBox(height: 14.h),
                               GestureDetector(
@@ -232,9 +276,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text(
-                                        'Shop now',
+                                        tr(context, 'Shop now', 'تسوق الآن'),
                                         style: TextStyle(
-                                          color: AppColors.white,
+                                          color: AppColors.primaryMaroon,
                                           fontSize: 12.sp,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -242,7 +286,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       SizedBox(width: 4.w),
                                       Icon(
                                         Icons.chevron_right_rounded,
-                                        color: AppColors.white,
+                                        color: AppColors.primaryMaroon,
                                         size: 16.sp,
                                       ),
                                     ],
@@ -256,31 +300,33 @@ class _HomeScreenState extends State<HomeScreen> {
                         // Carousel Dots bottom right
                         Positioned(
                           bottom: 16.h,
-                          right: 20.w,
+                          right:
+                              Localizations.localeOf(context).languageCode ==
+                                  'ar'
+                              ? 20.w
+                              : null,
+                          left:
+                              Localizations.localeOf(context).languageCode ==
+                                  'ar'
+                              ? null
+                              : 20.w,
                           child: Row(
                             children: [
-                              Container(
-                                width: 22.w,
-                                height: 5.h,
-                                decoration: BoxDecoration(
-                                  color: AppColors.white,
-                                  borderRadius: BorderRadius.circular(3.r),
-                                ),
-                              ),
-                              SizedBox(width: 4.w),
-                              CircleAvatar(
-                                radius: 2.5.r,
-                                backgroundColor: Colors.white.withValues(
-                                  alpha: 0.5,
-                                ),
-                              ),
-                              SizedBox(width: 4.w),
-                              CircleAvatar(
-                                radius: 2.5.r,
-                                backgroundColor: Colors.white.withValues(
-                                  alpha: 0.5,
-                                ),
-                              ),
+                              ...List.generate(_bannerImages.length, (index) {
+                                final active = index == _bannerIndex;
+                                return AnimatedContainer(
+                                  duration: const Duration(milliseconds: 200),
+                                  margin: EdgeInsets.only(left: 4.w),
+                                  width: active ? 22.w : 6.w,
+                                  height: 5.h,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.primaryMaroon.withValues(
+                                      alpha: active ? 1 : .5,
+                                    ),
+                                    borderRadius: BorderRadius.circular(3.r),
+                                  ),
+                                );
+                              }),
                             ],
                           ),
                         ),
@@ -298,7 +344,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Expanded(
                       child: Text(
-                        'Browse Rooms',
+                        tr(context, 'Browse Rooms', 'تصفح الغرف'),
                         style: AppTextStyles.serifHeader.copyWith(
                           fontSize: 20.sp,
                         ),
@@ -310,7 +356,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         AppRouteNames.categories,
                       ),
                       child: Text(
-                        'All rooms',
+                        tr(context, 'All rooms', 'كل الغرف'),
                         style: TextStyle(
                           fontSize: 13.sp,
                           color: AppColors.primaryMaroon,
@@ -324,7 +370,10 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 14.h),
 
               // Rooms Horizontal Scroll List
-                RoomsSectionWidget(),
+              RoomsSectionWidget(
+                onCategorySelected: (category) =>
+                    setState(() => _selectedCategory = category),
+              ),
               SizedBox(height: 16.h),
 
               // 5. Featured Section
@@ -337,13 +386,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Featured',
+                            tr(context, 'Featured', 'مختارات'),
                             style: AppTextStyles.serifHeader.copyWith(
                               fontSize: 20.sp,
                             ),
                           ),
                           Text(
-                            'Curated for you',
+                            tr(context, 'Curated for you', 'مختارة لك'),
                             style: TextStyle(
                               fontSize: 12.sp,
                               color: AppColors.textGrey,
@@ -356,7 +405,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: () =>
                           Navigator.pushNamed(context, AppRouteNames.listing),
                       child: Text(
-                        'See all',
+                        tr(context, 'See all', 'عرض الكل'),
                         style: TextStyle(
                           fontSize: 13.sp,
                           color: AppColors.primaryMaroon,
@@ -370,54 +419,88 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 14.h),
 
               // Featured Cards Horizontal List
-              SizedBox(
-                height: 245.h,
-                child:BlocBuilder<HomeViewModel, ViewState<List<HomeSectionModel>>>(
-                    builder: (context,state){
-                      return switch(state.status){
-                        ViewStatus.loading  => const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                        ViewStatus.failure => Center(
-                          child: Text('Error In Loading Data'),
-                        ),
-                        ViewStatus.success => ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            padding: EdgeInsets.symmetric(horizontal: 20.w),
-                            itemCount: state.data?.length ?? 0,
-                            itemBuilder: (context, index) {
-                              final product = state.data![index];
+              BlocBuilder<HomeViewModel, ViewState<List<HomeSectionModel>>>(
+                builder: (context, state) {
+                  return switch (state.status) {
+                    ViewStatus.loading => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    ViewStatus.failure => Center(
+                      child: Text('Error In Loading Data'),
+                    ),
+                    ViewStatus.success => Builder(
+                      builder: (context) {
+                        final products =
+                            (_selectedCategory == null
+                                ? state.data
+                                : state.data
+                                      ?.where(
+                                        (product) =>
+                                            product.category ==
+                                            _selectedCategory,
+                                      )
+                                      .toList()) ??
+                            const <HomeSectionModel>[];
+                        if (products.isEmpty) {
+                          return const Center(
+                            child: Text('No products in this category'),
+                          );
+                        }
+                        return GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: EdgeInsets.symmetric(horizontal: 20.w),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 12.w,
+                                mainAxisSpacing: 14.h,
+                                childAspectRatio: .72,
+                              ),
+                          itemCount: products.length,
+                          itemBuilder: (context, index) {
+                            final product = products[index];
 
-                              return SingleFeatureCardWidget(
-                                key: ValueKey('fav_${product.id}'),
+                            return SingleFeatureCardWidget(
+                              key: ValueKey('fav_${product.id}'),
+                              product.id,
+                              localizedProductName(context, product.title),
+                              product.price,
+                              product.thumbnail,
+                              product.rating,
+                              context.read<HomeViewModel>().isFavorite(
                                 product.id,
-                                 product.title,
-                                product.price,
-                                product.thumbnail,
-                                product.rating,
-                                context.read<HomeViewModel>().isFavorite(product.id),
-                                    () {
-                                  // Navigator
-                                },
-                                () {
-                                  // add product to fav
-                                    context.read<HomeViewModel>().toggleFavorite(product);
+                              ),
+                              () {
+                                Navigator.pushNamed(
+                                  context,
+                                  AppRouteNames.productDetails,
+                                  arguments: {'productId': product.id},
+                                );
+                              },
+                              () {
+                                // add product to fav
+                                context.read<HomeViewModel>().toggleFavorite(
+                                  product,
+                                );
 
-                                  final List<FavoriteItemModel> favList = context.read<HomeViewModel>().getFavorites();
-                                  print("favorite List ${favList.length}");
-                                },
-                              );
-                            },
-                          ),
+                                final List<FavoriteItemModel> favList = context
+                                    .read<HomeViewModel>()
+                                    .getFavorites();
+                                print("favorite List ${favList.length}");
+                              },
+                            );
+                          },
+                        );
+                      },
+                    ),
 
-                        // TODO: Handle this case.
-                        ViewStatus.initial => const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      };
-                    },
-                )
-                ,
+                    // TODO: Handle this case.
+                    ViewStatus.initial => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  };
+                },
               ),
               SizedBox(height: 20.h),
             ],

@@ -23,13 +23,13 @@ class ProfileUserModel extends Equatable {
 
   @override
   List<Object> get props => [
-        name,
-        email,
-        memberSince,
-        badge,
-        ordersCount,
-        reviewsCount,
-        savedCount,
-        spentAmount,
-      ];
+    name,
+    email,
+    memberSince,
+    badge,
+    ordersCount,
+    reviewsCount,
+    savedCount,
+    spentAmount,
+  ];
 }

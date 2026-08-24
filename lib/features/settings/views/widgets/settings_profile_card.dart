@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 
 class SettingsProfileCard extends StatelessWidget {
-  const SettingsProfileCard({super.key});
+  final String name;
+  final String email;
+
+  const SettingsProfileCard({
+    super.key,
+    required this.name,
+    required this.email,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(
-        horizontal: 14,
-        vertical: 12,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [
-            Color(0xFF5B292D),
-            Color(0xFF9B3F46),
-          ],
+          colors: [Color(0xFF5B292D), Color(0xFF9B3F46)],
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
         ),
@@ -32,9 +33,9 @@ class SettingsProfileCard extends StatelessWidget {
               color: const Color(0xFFF4B51B),
               borderRadius: BorderRadius.circular(13),
             ),
-            child: const Center(
+            child: Center(
               child: Text(
-                'E',
+                name.isNotEmpty ? name[0].toUpperCase() : 'U',
                 style: TextStyle(
                   fontFamily: 'Georgia',
                   fontSize: 20,
@@ -48,12 +49,12 @@ class SettingsProfileCard extends StatelessWidget {
           const SizedBox(width: 12),
 
           // User information
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Elina Bergström',
+                  name,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 12,
@@ -62,11 +63,8 @@ class SettingsProfileCard extends StatelessWidget {
                 ),
                 SizedBox(height: 3),
                 Text(
-                  'Gold Member • 8,240 points',
-                  style: TextStyle(
-                    color: Color(0xFFE4D1D0),
-                    fontSize: 9,
-                  ),
+                  '$email • NORR member',
+                  style: TextStyle(color: Color(0xFFE4D1D0), fontSize: 9),
                 ),
               ],
             ),

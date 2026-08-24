@@ -9,7 +9,8 @@ import '../repositories/home_repository.dart';
 class HomeViewModel extends Cubit<ViewState<List<HomeSectionModel>>> {
   final HomeRepository _repository;
   final FavoritesRepository _favoritesRepository;
-  HomeViewModel(this._repository,this._favoritesRepository) : super(const ViewState.initial());
+  HomeViewModel(this._repository, this._favoritesRepository)
+    : super(const ViewState.initial());
 
   Future<void> loadHome() async {
     emit(const ViewState.loading());
@@ -20,10 +21,18 @@ class HomeViewModel extends Cubit<ViewState<List<HomeSectionModel>>> {
     }
   }
 
-  Future<void> addToFavorite(HomeSectionModel product) async{
-    final favoriteItem = FavoriteItemModel(id: product.id, title: product.title, price: product.price, rating: product.rating, thumbnail: product.thumbnail, availabilityStatus: product.availabilityStatus);
+  Future<void> addToFavorite(HomeSectionModel product) async {
+    final favoriteItem = FavoriteItemModel(
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      rating: product.rating,
+      thumbnail: product.thumbnail,
+      availabilityStatus: product.availabilityStatus,
+    );
     await _favoritesRepository.addToFavorites(favoriteItem);
   }
+
   bool isFavorite(int id) {
     return _favoritesRepository.isFavorite(id);
   }
@@ -31,12 +40,20 @@ class HomeViewModel extends Cubit<ViewState<List<HomeSectionModel>>> {
   List<FavoriteItemModel> getFavorites() {
     return _favoritesRepository.getFavorites();
   }
-  Future<void> removeFromFavorites(int id) async{
+
+  Future<void> removeFromFavorites(int id) async {
     await _favoritesRepository.removeFromFavorites(id);
   }
 
   Future<void> toggleFavorite(HomeSectionModel product) async {
-    final favoriteItem = FavoriteItemModel(id: product.id, title: product.title, price: product.price, rating: product.rating, thumbnail: product.thumbnail, availabilityStatus: product.availabilityStatus);
+    final favoriteItem = FavoriteItemModel(
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      rating: product.rating,
+      thumbnail: product.thumbnail,
+      availabilityStatus: product.availabilityStatus,
+    );
 
     if (isFavorite(product.id)) {
       await _favoritesRepository.removeFromFavorites(product.id);
@@ -44,5 +61,6 @@ class HomeViewModel extends Cubit<ViewState<List<HomeSectionModel>>> {
       await _favoritesRepository.addToFavorites(favoriteItem);
     }
 
-    emit(ViewState.success(List.from(state.data ?? [])));  }
+    emit(ViewState.success(List.from(state.data ?? [])));
+  }
 }

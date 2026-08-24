@@ -8,9 +8,9 @@ class LoginHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 220,
+      height: 168,
       width: double.infinity,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.header,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(35),
@@ -48,7 +48,10 @@ class LoginHeader extends StatelessWidget {
           ),
 
           Padding(
-            padding: const EdgeInsets.only(left: 24, top: 60),
+            padding: EdgeInsets.only(
+              left: 24,
+              top: MediaQuery.of(context).padding.top + 2,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -68,7 +71,7 @@ class LoginHeader extends StatelessWidget {
                   "Sign In",
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 52,
+                    fontSize: 48,
                     fontWeight: FontWeight.bold,
                     fontFamily: 'serif',
                   ),
