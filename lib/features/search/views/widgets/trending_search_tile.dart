@@ -43,10 +43,7 @@ class TrendingSearchTile extends StatelessWidget {
           ),
           if (isHot) ...[
             Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 8.w,
-                vertical: 4.h,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
               decoration: BoxDecoration(
                 color: const Color(0xFFFBEAEB),
                 borderRadius: BorderRadius.circular(12.r),

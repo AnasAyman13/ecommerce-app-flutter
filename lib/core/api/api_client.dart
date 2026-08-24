@@ -39,22 +39,25 @@ class ApiClient {
     Map<String, dynamic>? queryParams,
   }) => _dio.get(path, queryParameters: queryParams);
 
-  Future<Response> getProducts() async {
-    try {
-      final response = await _dio.get(ApiEndpoints.allProducts);
-      return response;
-    } catch (e) {
-      rethrow;
-    }
-  }
-  Future<Response> getProductById(int id) async {
-    try {
-      final response = await _dio.get('$id');
-      return response;
-    } catch (e) {
-      rethrow;
-    }
-  }
+  Future<Response<dynamic>> getProducts({
+    int limit = 30,
+    int skip = 0,
+    String? category,
+  }) => _dio.get(
+    category == null
+        ? ApiEndpoints.allProducts
+        : ApiEndpoints.productsByCategory(category),
+    queryParameters: {'limit': limit, 'skip': skip},
+  );
+
+  Future<Response<dynamic>> getProductById(String id) =>
+      _dio.get(ApiEndpoints.productById(id));
+
+  Future<Response<dynamic>> getCategories() =>
+      _dio.get(ApiEndpoints.productCategories);
+
+  Future<Response<dynamic>> searchProducts(String query) =>
+      _dio.get(ApiEndpoints.searchProducts, queryParameters: {'q': query});
 
   Future<Response<dynamic>> post(String path, {dynamic data}) =>
       _dio.post(path, data: data);

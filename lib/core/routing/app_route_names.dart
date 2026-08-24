@@ -16,4 +16,5 @@ class AppRouteNames {
   static const String profile = '/profile';
   static const String wishlist = '/wishlist';
   static const String settings = '/settings';
+  static const String checkout = '/checkout';
 }

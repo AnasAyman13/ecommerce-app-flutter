@@ -1,13 +1,15 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/theme/locale_controller.dart';
+import '../../../../core/routing/app_route_names.dart';
 import '../../../../core/widgets/custom_bottom_nav_bar.dart';
 import '../../models/cart_item_model.dart';
 import '../../view_models/cart_view_model.dart';
+
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
 
@@ -21,7 +23,7 @@ class _CartViewContent extends StatelessWidget {
   const _CartViewContent();
 
   String _formatCurrency(double amount) {
-    return '\$${amount.toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}';
+    return 'EGP ${amount.toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}';
   }
 
   @override
@@ -34,6 +36,72 @@ class _CartViewContent extends StatelessWidget {
     final promoDiscount = cartViewModel.promoDiscount;
     final estimatedTax = cartViewModel.estimatedTax;
     final grandTotal = cartViewModel.grandTotal;
+
+    if (cartViewModel.isEmpty) {
+      return Scaffold(
+        backgroundColor: AppColors.bgCream,
+        appBar: AppBar(title: Text(tr(context, 'Shopping Cart', 'سلة التسوق'))),
+        body: Center(
+          child: Padding(
+            padding: EdgeInsets.all(28.w),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 132.r,
+                  height: 132.r,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.lightPillBg,
+                    border: Border.all(
+                      color: AppColors.primaryMaroon.withValues(alpha: .15),
+                      width: 2,
+                    ),
+                  ),
+                  child: Icon(
+                    Icons.shopping_bag_outlined,
+                    size: 64.sp,
+                    color: AppColors.primaryMaroon,
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                Text(
+                  tr(context, 'Your cart is empty', 'سلة التسوق فارغة'),
+                  style: AppTextStyles.serifHeader.copyWith(fontSize: 25.sp),
+                ),
+                SizedBox(height: 8.h),
+                Text(
+                  tr(
+                    context,
+                    'Discover beautiful pieces for every room and add your favorites here.',
+                    'اكتشف قطعًا جميلة لكل غرفة وأضفها إلى سلتك.',
+                  ),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: AppColors.textGrey, fontSize: 13.sp),
+                ),
+                SizedBox(height: 22.h),
+                FilledButton.icon(
+                  onPressed: () => Navigator.pushReplacementNamed(
+                    context,
+                    AppRouteNames.listing,
+                  ),
+                  icon: const Icon(Icons.explore_outlined),
+                  label: Text(tr(context, 'Shop now', 'تسوق الآن')),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: AppColors.primaryMaroon,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 24.w,
+                      vertical: 13.h,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        bottomNavigationBar: CustomBottomNavBar(currentIndex: 2),
+      );
+    }
 
     return Scaffold(
       backgroundColor: AppColors.bgCream,
@@ -52,7 +120,7 @@ class _CartViewContent extends StatelessWidget {
                     child: Container(
                       width: 42.r,
                       height: 42.r,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: AppColors.lightPillBg,
                         shape: BoxShape.circle,
                       ),
@@ -350,10 +418,9 @@ class _CartViewContent extends StatelessWidget {
                                 return;
                               }
 
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Proceeding to Checkout...'),
-                                ),
+                              Navigator.pushNamed(
+                                context,
+                                AppRouteNames.checkout,
                               );
                             },
                             child: Container(
@@ -455,7 +522,7 @@ class _CartViewContent extends StatelessWidget {
                   width: 90.r,
                   height: 90.r,
                   color: AppColors.lightPillBg,
-                  child: const Icon(Icons.chair, color: AppColors.textGrey),
+                  child: Icon(Icons.chair, color: AppColors.textGrey),
                 );
               },
             ),
@@ -581,7 +648,7 @@ class _CartViewContent extends StatelessWidget {
                             },
                             child: Container(
                               padding: EdgeInsets.all(6.r),
-                              decoration: const BoxDecoration(
+                              decoration: BoxDecoration(
                                 color: AppColors.primaryMaroon,
                                 shape: BoxShape.circle,
                               ),

@@ -2,10 +2,10 @@ import 'package:ecommerce_app/core/database/fav_local_data_source.dart';
 import 'package:ecommerce_app/core/models/favorite_item_model.dart';
 import 'package:hive/hive.dart';
 
-class FavLocalDataSourceImp implements FavLocalDataSource{
+class FavLocalDataSourceImp implements FavLocalDataSource {
   static const String boxName = 'favorites_box';
   @override
-  Future<void> addToFavorites(FavoriteItemModel item) async{
+  Future<void> addToFavorites(FavoriteItemModel item) async {
     final box = Hive.box<FavoriteItemModel>(boxName);
     await box.put(item.id, item);
   }
@@ -23,7 +23,7 @@ class FavLocalDataSourceImp implements FavLocalDataSource{
   }
 
   @override
-  Future<void> removeFromFavorites(int id) async{
+  Future<void> removeFromFavorites(int id) async {
     final box = Hive.box<FavoriteItemModel>(boxName);
     await box.delete(id);
   }

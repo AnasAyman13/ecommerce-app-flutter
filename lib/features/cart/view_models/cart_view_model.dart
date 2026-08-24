@@ -1,36 +1,38 @@
+import 'dart:convert';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/utils/view_state.dart';
 import '../models/cart_item_model.dart';
 
 class CartViewModel extends Cubit<ViewState<List<CartItemModel>>> {
   final List<CartItemModel> _cartItems = [];
+  final SharedPreferences? _preferences;
 
   String? _appliedPromoCode;
 
-  CartViewModel() : super(const ViewState.initial()) {
-    _cartItems.addAll([
-      CartItemModel(
-        id: '1',
-        title: 'Bergen Lounge Sofa',
-        variant: 'Warm Caramel · Bouclé',
-        price: 1840,
-        imageUrl:
-            'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500&auto=format&fit=crop',
-        quantity: 1,
-      ),
-      CartItemModel(
-        id: '2',
-        title: 'Stav Oak Chair',
-        variant: 'Natural Oak · Set of 2',
-        price: 680,
-        imageUrl:
-            'https://images.unsplash.com/photo-1580481072645-022f9a6d8310?w=500&auto=format&fit=crop',
-        quantity: 2,
-      ),
-    ]);
+  CartViewModel([this._preferences]) : super(const ViewState.success([])) {
+    _restore();
+  }
 
+  Future<void> _restore() async {
+    final raw = _preferences?.getString('cart_items');
+    if (raw == null) return;
+    final decoded = jsonDecode(raw) as List<dynamic>;
+    _cartItems
+      ..clear()
+      ..addAll(
+        decoded.whereType<Map<String, dynamic>>().map(CartItemModel.fromJson),
+      );
     _emitSuccess();
+  }
+
+  Future<void> _persist() async {
+    await _preferences?.setString(
+      'cart_items',
+      jsonEncode(_cartItems.map((item) => item.toJson()).toList()),
+    );
   }
 
   List<CartItemModel> get cartItems => List.unmodifiable(_cartItems);
@@ -74,12 +76,14 @@ class CartViewModel extends Cubit<ViewState<List<CartItemModel>>> {
     }
 
     _emitSuccess();
+    _persist();
   }
 
   void removeItem(String itemId) {
     _cartItems.removeWhere((item) => item.id == itemId);
 
     _emitSuccess();
+    _persist();
   }
 
   void increaseQuantity(String itemId) {
@@ -90,6 +94,7 @@ class CartViewModel extends Cubit<ViewState<List<CartItemModel>>> {
     _cartItems[index].quantity++;
 
     _emitSuccess();
+    _persist();
   }
 
   void decreaseQuantity(String itemId) {
@@ -102,6 +107,7 @@ class CartViewModel extends Cubit<ViewState<List<CartItemModel>>> {
     }
 
     _emitSuccess();
+    _persist();
   }
 
   void clearCart() {
@@ -109,6 +115,7 @@ class CartViewModel extends Cubit<ViewState<List<CartItemModel>>> {
     _appliedPromoCode = null;
 
     _emitSuccess();
+    _persist();
   }
 
   bool applyPromoCode(String code) {

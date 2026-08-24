@@ -1,15 +1,15 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../routing/app_route_names.dart';
 import '../theme/app_colors.dart';
+import '../theme/locale_controller.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
 
-  const CustomBottomNavBar({
-    super.key,
-    required this.currentIndex,
-  });
+  const CustomBottomNavBar({super.key, required this.currentIndex});
 
   void _onItemTapped(BuildContext context, int index) {
     if (index == currentIndex) return;
@@ -19,7 +19,7 @@ class CustomBottomNavBar extends StatelessWidget {
         Navigator.pushReplacementNamed(context, AppRouteNames.home);
         break;
       case 1:
-        Navigator.pushReplacementNamed(context, AppRouteNames.categories);
+        Navigator.pushReplacementNamed(context, AppRouteNames.search);
         break;
       case 2:
         Navigator.pushReplacementNamed(context, AppRouteNames.cart);
@@ -36,93 +36,130 @@ class CustomBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items = [
-      _NavItem(icon: Icons.home_outlined, activeIcon: Icons.home_rounded, label: 'Home'),
-      _NavItem(icon: Icons.search_rounded, activeIcon: Icons.search_rounded, label: 'Explore'),
-      _NavItem(icon: Icons.shopping_bag_outlined, activeIcon: Icons.shopping_bag, label: 'Cart', badge: '2'),
-      _NavItem(icon: Icons.favorite_border_rounded, activeIcon: Icons.favorite_rounded, label: 'Saved'),
-      _NavItem(icon: Icons.person_outline_rounded, activeIcon: Icons.person_rounded, label: 'Profile'),
+      _NavItem(
+        icon: Icons.home_outlined,
+        activeIcon: Icons.home_rounded,
+        label: tr(context, 'Home', 'الرئيسية'),
+      ),
+      _NavItem(
+        icon: Icons.search_rounded,
+        activeIcon: Icons.search_rounded,
+        label: tr(context, 'Explore', 'استكشاف'),
+      ),
+      _NavItem(
+        icon: Icons.shopping_bag_outlined,
+        activeIcon: Icons.shopping_bag,
+        label: tr(context, 'Cart', 'السلة'),
+      ),
+      _NavItem(
+        icon: Icons.favorite_border_rounded,
+        activeIcon: Icons.favorite_rounded,
+        label: tr(context, 'Saved', 'المفضلة'),
+      ),
+      _NavItem(
+        icon: Icons.person_outline_rounded,
+        activeIcon: Icons.person_rounded,
+        label: tr(context, 'Profile', 'حسابي'),
+      ),
     ];
 
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.bgCream,
-        border: Border(
-          top: BorderSide(
-            color: AppColors.lightBorder.withOpacity(0.5),
-            width: 1.r,
+    return ClipRRect(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(26.r)),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppColors.bgCream.withValues(alpha: .72),
+            border: Border(
+              top: BorderSide(
+                color: AppColors.white.withValues(alpha: .65),
+                width: 1.r,
+              ),
+            ),
           ),
-        ),
-      ),
-      padding: EdgeInsets.symmetric(vertical: 6.h),
-      child: SafeArea(
-        top: false,
-        child: Row(
-          children: List.generate(items.length, (index) {
-            final item = items[index];
-            final isActive = index == currentIndex;
+          padding: EdgeInsets.symmetric(vertical: 6.h),
+          child: SafeArea(
+            top: false,
+            child: Row(
+              children: List.generate(items.length, (index) {
+                final item = items[index];
+                final isActive = index == currentIndex;
 
-            return Expanded(
-              child: InkWell(
-                onTap: () => _onItemTapped(context, index),
-                borderRadius: BorderRadius.circular(20.r),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 2.h),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Stack(
-                        clipBehavior: Clip.none,
-                        alignment: Alignment.center,
+                return Expanded(
+                  child: InkWell(
+                    onTap: () => _onItemTapped(context, index),
+                    borderRadius: BorderRadius.circular(20.r),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 2.h),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 5.h),
-                            decoration: BoxDecoration(
-                              color: isActive ? AppColors.lightPillBg : Colors.transparent,
-                              borderRadius: BorderRadius.circular(20.r),
-                            ),
-                            child: Icon(
-                              isActive ? item.activeIcon : item.icon,
-                              color: isActive ? AppColors.primaryMaroon : AppColors.textGrey,
-                              size: 20.sp,
-                            ),
-                          ),
-                          if (item.badge != null)
-                            Positioned(
-                              top: -2.h,
-                              right: 4.w,
-                              child: Container(
-                                padding: EdgeInsets.all(4.r),
-                                decoration: const BoxDecoration(
-                                  color: AppColors.primaryMaroon,
-                                  shape: BoxShape.circle,
+                          Stack(
+                            clipBehavior: Clip.none,
+                            alignment: Alignment.center,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 14.w,
+                                  vertical: 5.h,
                                 ),
-                                child: Text(
-                                  item.badge!,
-                                  style: TextStyle(
-                                    color: AppColors.white,
-                                    fontSize: 9.sp,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                decoration: BoxDecoration(
+                                  color: isActive
+                                      ? AppColors.lightPillBg
+                                      : Colors.transparent,
+                                  borderRadius: BorderRadius.circular(20.r),
+                                ),
+                                child: Icon(
+                                  isActive ? item.activeIcon : item.icon,
+                                  color: isActive
+                                      ? AppColors.primaryMaroon
+                                      : AppColors.textGrey,
+                                  size: 20.sp,
                                 ),
                               ),
+                              if (item.badge != null)
+                                Positioned(
+                                  top: -2.h,
+                                  right: 4.w,
+                                  child: Container(
+                                    padding: EdgeInsets.all(4.r),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.primaryMaroon,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Text(
+                                      item.badge!,
+                                      style: TextStyle(
+                                        color: AppColors.white,
+                                        fontSize: 9.sp,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                          SizedBox(height: 2.h),
+                          Text(
+                            item.label,
+                            style: TextStyle(
+                              fontSize: 10.sp,
+                              fontWeight: isActive
+                                  ? FontWeight.bold
+                                  : FontWeight.w500,
+                              color: isActive
+                                  ? AppColors.primaryMaroon
+                                  : AppColors.textGrey,
                             ),
+                          ),
                         ],
                       ),
-                      SizedBox(height: 2.h),
-                      Text(
-                        item.label,
-                        style: TextStyle(
-                          fontSize: 10.sp,
-                          fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
-                          color: isActive ? AppColors.primaryMaroon : AppColors.textGrey,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            );
-          }),
+                );
+              }),
+            ),
+          ),
         ),
       ),
     );

@@ -1,8 +1,4 @@
-enum OrderStatus {
-  outForDelivery,
-  delivered,
-  cancelled,
-}
+enum OrderStatus { outForDelivery, delivered, cancelled }
 
 class OrderModel {
   final String orderId;

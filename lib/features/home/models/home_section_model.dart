@@ -13,6 +13,7 @@ class HomeSectionModel extends Equatable {
   final List<String> images;
   final String thumbnail;
   final String availabilityStatus;
+  final String category;
 
   const HomeSectionModel({
     required this.id,
@@ -27,6 +28,7 @@ class HomeSectionModel extends Equatable {
     required this.images,
     required this.thumbnail,
     required this.availabilityStatus,
+    this.category = '',
   });
   factory HomeSectionModel.fromJson(Map<String, dynamic> json) {
     return HomeSectionModel(
@@ -34,14 +36,24 @@ class HomeSectionModel extends Equatable {
       title: json['title'] as String? ?? '',
       description: json['description'] as String? ?? '',
       price: (json['price'] as num? ?? 0.0).toDouble(),
-      discountPercentage: (json['discountPercentage'] as num? ?? 0.0).toDouble(),
+      discountPercentage: (json['discountPercentage'] as num? ?? 0.0)
+          .toDouble(),
       rating: (json['rating'] as num? ?? 0.0).toDouble(),
       stock: json['stock'] as int? ?? 0,
       brand: json['brand'] as String? ?? '',
-      tags: (json['tags'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? [],
-      images: (json['images'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? [],
-      thumbnail: json['thumbnail'] as String? ?? '',
+      tags:
+          (json['tags'] as List<dynamic>?)?.map((e) => e.toString()).toList() ??
+          [],
+      images:
+          (json['images'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          [],
+      thumbnail: (json['thumbnail'] as String?)?.isNotEmpty == true
+          ? json['thumbnail'] as String
+          : ((json['images'] as List<dynamic>?)?.firstOrNull?.toString() ?? ''),
       availabilityStatus: json['availabilityStatus'] as String? ?? '',
+      category: json['category'] as String? ?? '',
     );
   }
   @override
@@ -58,5 +70,6 @@ class HomeSectionModel extends Equatable {
     images,
     thumbnail,
     availabilityStatus,
+    category,
   ];
 }

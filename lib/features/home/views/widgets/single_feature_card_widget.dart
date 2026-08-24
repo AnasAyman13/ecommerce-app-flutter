@@ -9,8 +9,9 @@ import 'package:hive_flutter/adapters.dart';
 import '../../../../core/di/service_locator.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/theme/locale_controller.dart';
 
-class SingleFeatureCardWidget extends StatefulWidget{
+class SingleFeatureCardWidget extends StatefulWidget {
   final int id;
   final String name;
   final double price;
@@ -19,21 +20,28 @@ class SingleFeatureCardWidget extends StatefulWidget{
   final bool isFavorite;
   final VoidCallback onTap;
   final VoidCallback? onFavoriteTap;
-  SingleFeatureCardWidget(this.id,this.name,this.price,this.imgUrl,this.rating,this.isFavorite,this.onTap,
-      this.onFavoriteTap,{super.key});
+  SingleFeatureCardWidget(
+    this.id,
+    this.name,
+    this.price,
+    this.imgUrl,
+    this.rating,
+    this.isFavorite,
+    this.onTap,
+    this.onFavoriteTap, {
+    super.key,
+  });
   @override
   State<StatefulWidget> createState() => _SingleFeatureCardWidget();
-  }
+}
 
-class _SingleFeatureCardWidget extends State<SingleFeatureCardWidget>{
-
+class _SingleFeatureCardWidget extends State<SingleFeatureCardWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.onTap,
       child: Container(
-        width: 170.w,
-        margin: EdgeInsets.only(right: 14.w),
+        width: double.infinity,
         decoration: BoxDecoration(
           color: AppColors.cardBg,
           borderRadius: BorderRadius.circular(24.r),
@@ -60,13 +68,12 @@ class _SingleFeatureCardWidget extends State<SingleFeatureCardWidget>{
                       height: double.infinity,
                       width: double.infinity,
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) =>
-                          Image.asset(
-                            'assets/images/stav_oak_chair.png',
-                            height: double.infinity,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
+                      errorBuilder: (context, error, stackTrace) => Image.asset(
+                        'assets/images/stav_oak_chair.png',
+                        height: double.infinity,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                   // if (item['isSale'] == true)
@@ -98,24 +105,28 @@ class _SingleFeatureCardWidget extends State<SingleFeatureCardWidget>{
                     top: 10.h,
                     right: 10.w,
                     child: Container(
-                     // padding: EdgeInsets.all(1.r),
+                      // padding: EdgeInsets.all(1.r),
                       decoration: const BoxDecoration(
                         color: AppColors.white,
                         shape: BoxShape.circle,
                       ),
                       child: ValueListenableBuilder<Box>(
-                          valueListenable: Hive.box<FavoriteItemModel>("favorites_box").listenable(),
-                          builder: (context,box,child){
-                            final isFavorite = box.containsKey(widget.id);
-                            return IconButton(
-                              color: AppColors.primaryMaroon,
-                              onPressed: widget.onFavoriteTap,
-                              icon: Icon(
-                                  isFavorite
-                                      ? Icons.favorite
-                                      : Icons.favorite_border),
-                            );
-                          }),
+                        valueListenable: Hive.box<FavoriteItemModel>(
+                          "favorites_box",
+                        ).listenable(),
+                        builder: (context, box, child) {
+                          final isFavorite = box.containsKey(widget.id);
+                          return IconButton(
+                            color: AppColors.primaryMaroon,
+                            onPressed: widget.onFavoriteTap,
+                            icon: Icon(
+                              isFavorite
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ],
@@ -130,7 +141,7 @@ class _SingleFeatureCardWidget extends State<SingleFeatureCardWidget>{
                     children: [
                       ...List.generate(
                         5,
-                            (i) => Icon(
+                        (i) => Icon(
                           Icons.star_rounded,
                           size: 12.sp,
                           color: AppColors.starYellow,
@@ -160,9 +171,16 @@ class _SingleFeatureCardWidget extends State<SingleFeatureCardWidget>{
                   ),
                   SizedBox(height: 2.h),
                   Text(
-                    widget.price.toString(),
-                    style: AppTextStyles.serifPrice.copyWith(
-                      fontSize: 15.sp,
+                    'EGP ${widget.price.toStringAsFixed(0)}',
+                    style: AppTextStyles.serifPrice.copyWith(fontSize: 15.sp),
+                  ),
+                  SizedBox(height: 2.h),
+                  Text(
+                    tr(context, 'In stock', 'متوفر بالمخزن'),
+                    style: TextStyle(
+                      fontSize: 10.sp,
+                      color: AppColors.mintGreen,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ],
@@ -174,4 +192,3 @@ class _SingleFeatureCardWidget extends State<SingleFeatureCardWidget>{
     );
   }
 }
-

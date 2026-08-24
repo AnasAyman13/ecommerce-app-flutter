@@ -3,10 +3,18 @@
 class ApiEndpoints {
   ApiEndpoints._();
 
-  // TODO: Replace with your actual API base URL
-  static const String baseUrl = 'https://dummyjson.com/products/';
+  /// Override in production with `--dart-define=API_BASE_URL=https://.../`.
+  static const String baseUrl = String.fromEnvironment(
+    'API_BASE_URL',
+    defaultValue: 'https://dummyjson.com/',
+  );
 
-  static const String allProducts = 'category/furniture';
+  static const String allProducts = 'products';
+  static const String productCategories = 'products/categories';
+  static const String searchProducts = 'products/search';
+  static String productsByCategory(String category) =>
+      'products/category/${Uri.encodeComponent(category)}';
+  static String productById(String id) => 'products/$id';
   //static const String productById =
   // ── Auth ────────────────────────────────────────────
   static const String login = '/auth/login';

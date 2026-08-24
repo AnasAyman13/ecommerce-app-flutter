@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../../../core/di/service_locator.dart';
 import '../../../../core/routing/app_route_names.dart';
+import '../../viewmodels/auth_view_model.dart';
 import '../widgets/login_button.dart';
 import '../widgets/login_text_field.dart';
 import '../widgets/register_header.dart';
@@ -26,6 +28,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool isPasswordHidden = true;
   bool isConfirmPasswordHidden = true;
   bool isAccepted = false;
+  bool isLoading = false;
 
   @override
   void dispose() {
@@ -49,11 +52,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return;
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Account Created Successfully")),
-    );
+    _submitRegistration();
+  }
 
-    Navigator.pushReplacementNamed(context, AppRouteNames.login);
+  Future<void> _submitRegistration() async {
+    if (isLoading) return;
+    setState(() => isLoading = true);
+    try {
+      await sl<AuthViewModel>().register(
+        name: nameController.text,
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      if (!mounted) return;
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        AppRouteNames.home,
+        (_) => false,
+      );
+    } catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(error.toString())));
+      }
+    } finally {
+      if (mounted) setState(() => isLoading = false);
+    }
   }
 
   @override
@@ -110,7 +135,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 return "Please enter your email";
                               }
 
-                              if (!value.contains("@")) {
+                              if (!RegExp(
+                                r'^[^@\s]+@[^@\s]+\.[^@\s]+$',
+                              ).hasMatch(value)) {
                                 return "Invalid email";
                               }
 
@@ -140,6 +167,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                               if (value.length < 6) {
                                 return "Password must be at least 6 characters";
+                              }
+
+                              if (!RegExp(r'[A-Za-z]').hasMatch(value) ||
+                                  !RegExp(r'\d').hasMatch(value)) {
+                                return "Use letters and at least one number";
                               }
 
                               return null;

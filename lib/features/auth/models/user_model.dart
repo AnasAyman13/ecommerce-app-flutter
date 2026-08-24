@@ -18,9 +18,9 @@ class UserModel extends Equatable {
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-    id: json['id'] as String,
-    name: json['name'] as String,
-    email: json['email'] as String,
+    id: '${json['id'] ?? ''}',
+    name: '${json['name'] ?? json['firstName'] ?? ''}',
+    email: '${json['email'] ?? ''}',
     phone: json['phone'] as String?,
     avatarUrl: json['avatar_url'] as String?,
     token: json['token'] as String?,

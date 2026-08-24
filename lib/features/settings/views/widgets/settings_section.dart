@@ -3,19 +3,16 @@ import 'package:flutter/material.dart';
 class SettingsSectionTitle extends StatelessWidget {
   final String title;
 
-  const SettingsSectionTitle({
-    super.key,
-    required this.title,
-  });
+  const SettingsSectionTitle({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
     return Text(
       title,
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 10,
         fontWeight: FontWeight.w500,
-        color: Color(0xFF8B7A6E),
+        color: Theme.of(context).colorScheme.onSurfaceVariant,
         letterSpacing: 1.3,
       ),
     );
@@ -27,12 +24,12 @@ class SettingsDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Divider(
+    return Divider(
       height: 1,
       thickness: 0.7,
       indent: 16,
       endIndent: 16,
-      color: Color(0xFFE8DED4),
+      color: Theme.of(context).dividerColor,
     );
   }
 }

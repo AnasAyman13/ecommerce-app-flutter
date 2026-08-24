@@ -11,13 +11,16 @@ class SplashRepositoryImpl implements SplashRepository {
 
   @override
   Future<AppLaunchModel> getLaunchState() async {
-    final hasCompletedOnboarding = _sharedPreferences.getBool(StorageKeys.onboardingKey) ?? false;
+    final hasCompletedOnboarding =
+        _sharedPreferences.getBool(StorageKeys.onboardingKey) ?? false;
 
-    // final token = _sharedPreferences.getString('user_token');
-    // final isAuthenticated = token != null && token.isNotEmpty;
+    final token =
+        _sharedPreferences.getString(StorageKeys.authToken) ??
+        _sharedPreferences.getString('session_email');
+    final isAuthenticated = token != null && token.isNotEmpty;
 
     return AppLaunchModel(
-      isAuthenticated: true,
+      isAuthenticated: isAuthenticated,
       hasCompletedOnboarding: hasCompletedOnboarding,
     );
   }
